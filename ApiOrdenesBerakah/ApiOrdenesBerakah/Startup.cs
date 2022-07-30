@@ -1,7 +1,12 @@
+using ApiOrdenesBerakah.Datos;
+using ApiOrdenesBerakah.OrdenesMapper;
+using ApiOrdenesBerakah.Repository;
+using ApiOrdenesBerakah.Repository.IRepository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -25,7 +30,11 @@ namespace ApiOrdenesBerakah
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<ApplicationDbContext>(Options => Options.UseSqlServer(Configuration.GetConnectionString("ConexionDB")));
+            services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+            services.AddAutoMapper(typeof(OrdenesMappers));
             services.AddControllers();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

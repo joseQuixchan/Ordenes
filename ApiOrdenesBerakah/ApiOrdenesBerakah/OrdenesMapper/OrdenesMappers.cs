@@ -9,6 +9,7 @@ namespace ApiOrdenesBerakah.OrdenesMapper
         public OrdenesMappers()
         {
             CreateMap<Usuario, UsuarioDto>().ReverseMap();
+            CreateMap<Cliente, ClienteDto>().ReverseMap();
         }
     }
 }

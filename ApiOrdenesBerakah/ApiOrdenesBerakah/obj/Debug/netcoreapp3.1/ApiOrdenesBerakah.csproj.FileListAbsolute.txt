@@ -51,3 +51,13 @@ D:\GitHub\Ordenes\ApiOrdenesBerakah\ApiOrdenesBerakah\obj\Debug\netcoreapp3.1\Ap
 D:\GitHub\Ordenes\ApiOrdenesBerakah\ApiOrdenesBerakah\obj\Debug\netcoreapp3.1\ApiOrdenesBerakah.dll
 D:\GitHub\Ordenes\ApiOrdenesBerakah\ApiOrdenesBerakah\obj\Debug\netcoreapp3.1\ApiOrdenesBerakah.pdb
 D:\GitHub\Ordenes\ApiOrdenesBerakah\ApiOrdenesBerakah\obj\Debug\netcoreapp3.1\ApiOrdenesBerakah.genruntimeconfig.cache
+D:\GitHub\Ordenes\ApiOrdenesBerakah\ApiOrdenesBerakah\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\GitHub\Ordenes\ApiOrdenesBerakah\ApiOrdenesBerakah\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Abstractions.dll
+D:\GitHub\Ordenes\ApiOrdenesBerakah\ApiOrdenesBerakah\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.JsonWebTokens.dll
+D:\GitHub\Ordenes\ApiOrdenesBerakah\ApiOrdenesBerakah\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Logging.dll
+D:\GitHub\Ordenes\ApiOrdenesBerakah\ApiOrdenesBerakah\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Protocols.dll
+D:\GitHub\Ordenes\ApiOrdenesBerakah\ApiOrdenesBerakah\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+D:\GitHub\Ordenes\ApiOrdenesBerakah\ApiOrdenesBerakah\bin\Debug\netcoreapp3.1\Microsoft.IdentityModel.Tokens.dll
+D:\GitHub\Ordenes\ApiOrdenesBerakah\ApiOrdenesBerakah\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
+D:\GitHub\Ordenes\ApiOrdenesBerakah\ApiOrdenesBerakah\bin\Debug\netcoreapp3.1\System.IdentityModel.Tokens.Jwt.dll
+D:\GitHub\Ordenes\ApiOrdenesBerakah\ApiOrdenesBerakah\bin\Debug\netcoreapp3.1\Microsoft.EntityFrameworkCore.Design.dll

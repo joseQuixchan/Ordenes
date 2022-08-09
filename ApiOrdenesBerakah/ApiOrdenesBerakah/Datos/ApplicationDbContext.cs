@@ -11,5 +11,6 @@ namespace ApiOrdenesBerakah.Datos
 
         }
         public DbSet<Usuario> Usuario { get; set; }
+        public DbSet<Cliente> Cliente { get; set; }
     }
 }

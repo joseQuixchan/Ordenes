@@ -7,6 +7,8 @@ namespace ApiOrdenesBerakah.Repository.IRepository
     public interface IUsuarioRepository
     {
         ICollection<Usuario> GetUsuarios();
+        Usuario Registro(Usuario usuario, string userPass);
+        Usuario Login(string usuario, string userPass);
         Usuario GetUsuario(int id);
         bool ExisteUserName(string userName);
         public bool ExisteCorreo(string correo);

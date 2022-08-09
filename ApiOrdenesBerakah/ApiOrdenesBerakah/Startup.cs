@@ -2,6 +2,7 @@ using ApiOrdenesBerakah.Datos;
 using ApiOrdenesBerakah.OrdenesMapper;
 using ApiOrdenesBerakah.Repository;
 using ApiOrdenesBerakah.Repository.IRepository;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -11,9 +12,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace ApiOrdenesBerakah
@@ -32,8 +35,22 @@ namespace ApiOrdenesBerakah
         {
             services.AddDbContext<ApplicationDbContext>(Options => Options.UseSqlServer(Configuration.GetConnectionString("ConexionDB")));
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+            services.AddScoped<IClienteRepository, ClienteRepository>();
             services.AddAutoMapper(typeof(OrdenesMappers));
             services.AddControllers();
+
+            services.AddCors();
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration.GetSection("AppSettings:Token").Value)),
+                    ValidateIssuer = true,
+                    ValidateAudience = false
+                };
+            });
 
         }
 
@@ -55,6 +72,9 @@ namespace ApiOrdenesBerakah
             {
                 endpoints.MapControllers();
             });
+
+
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
         }
     }
 }

@@ -13,15 +13,15 @@ using System.Text;
 
 namespace ApiOrdenesBerakah.Controllers
 {
-    [Route("api/Usuarios")]
+    [Route("api/Clientes")]
     [ApiController]
-    public class UsuariosController : Controller
+    public class ClientesController : Controller
     {
-        private readonly IUsuarioRepository _ctRepo;
+        private readonly IClienteRepository _ctRepo;
         private readonly IMapper _mapper;
         private readonly IConfiguration _config;
 
-        public UsuariosController(IUsuarioRepository ctRepo, IMapper mapper, IConfiguration config)
+        public ClientesController(IClienteRepository ctRepo, IMapper mapper, IConfiguration config)
         {
             _ctRepo = ctRepo;
             _mapper = mapper;
@@ -30,7 +30,7 @@ namespace ApiOrdenesBerakah.Controllers
 
 
         [HttpGet]
-        public ActionResult GetUsuarios()
+        public ActionResult GetClientes()
         {
             var listaUsuarios = _ctRepo.GetUsuarios();
 

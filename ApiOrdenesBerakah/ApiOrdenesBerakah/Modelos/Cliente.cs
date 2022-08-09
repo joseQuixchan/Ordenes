@@ -4,15 +4,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ApiOrdenesBerakah.Modelos
 {
-    public class Usuario
+    public class Cliente
     {
         [Key]
-        public int idUsuario { get; set; }
-        public string userName { get; set; }
-        public byte[] userPassHash { get; set; }
-        public byte[] userPassSalt { get; set; }
+        public int idCliente { get; set; }
         public string nombre { get; set; }
-        public string apellido { get; set; }
+        public string apellidio { get; set; }
         public string correo { get; set; }
         public string telefono { get; set; }
         public int genero { get; set; }

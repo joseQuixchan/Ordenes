@@ -116,7 +116,7 @@ namespace ApiOrdenesBerakah.Repository
         public ICollection<Usuario> GetUsuarios()
         {
             return _db.Usuario.OrderBy(c => c.nombre).ToList();
-        }
+        } 
 
         public bool Guardar()
         {

@@ -107,6 +107,13 @@ namespace BerakahOrdenes.Repository
             return _db.Usuario.OrderBy(c => c.UsuarioNombre).ToList();
         }
 
+        public bool ActualizarFechaSesionUsuario(Usuario usuario)
+        {
+            usuario.UsuarioFechaSesion = DateTime.Now;
+            _db.Update(usuario);
+            return _db.SaveChanges() > 0;
+        }
+
         public bool Guardar()
         {
             return _db.SaveChanges() >= 0 ? true : false;

@@ -33,9 +33,10 @@ namespace BerakahOrdenes.Controllers
 
             if (usuario == null)
             {
-                return Unauthorized();
+                return Unauthorized(0);
             }
 
+            _usuarioRepository.ActualizarFechaSesionUsuario(usuario);
             var claims = new[]
             {
                 new Claim(ClaimTypes.NameIdentifier, usuario.UsuarioId.ToString()),
@@ -115,6 +116,43 @@ namespace BerakahOrdenes.Controllers
 
             var itemUsuarioDto = _mapper.Map<UsuarioDto>(itemUsuario);
             return Ok(itemUsuarioDto);
+        }
+
+        [HttpPatch("{usuarioId:int}", Name = "ActualizarUsuario")]
+        public IActionResult ActualizarUsuario(int usuarioId, [FromBody] UsuarioDto usuarioDto)
+        {
+            if (usuarioDto == null || usuarioId != usuarioDto.Id)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var usuario = _mapper.Map<Usuario>(usuarioDto);
+
+            if (!_usuarioRepository.ActualizarUsuario(usuario))
+            {
+                ModelState.AddModelError("", $"Algo salio mal actualizando el registro{usuario.UsuarioNombre}");
+                return StatusCode(500, ModelState);
+            }
+            return NoContent();
+        }
+
+        [HttpDelete("{usuarioId:int}", Name = "BorrarUsuario")]
+        public IActionResult BorrarUsuario(int usuarioId)
+        {
+
+            if (!_usuarioRepository.ExisteUsuario(usuarioId))
+            {
+                return NotFound();
+            }
+
+            var usuario = _usuarioRepository.GetUsuario(usuarioId);
+
+            if (!_usuarioRepository.BorrarUsuario(usuario))
+            {
+                ModelState.AddModelError("", $"Algo salio mal borrando el registro{usuario.UsuarioNombre}");
+                return StatusCode(500, ModelState);
+            }
+            return NoContent();
         }
     }
 }

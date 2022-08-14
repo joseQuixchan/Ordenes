@@ -4,6 +4,7 @@ using BerakahOrdenes.Datos;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BerakahOrdenes.Migrations
 {
     [DbContext(typeof(DBOrdenes))]
-    partial class DBOrdenesModelSnapshot : ModelSnapshot
+    [Migration("20220813053749_CreacionTablaCliente1")]
+    partial class CreacionTablaCliente1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -59,64 +61,6 @@ namespace BerakahOrdenes.Migrations
                     b.HasKey("ClienteId");
 
                     b.ToTable("Cliente");
-                });
-
-            modelBuilder.Entity("BerakahOrdenes.Modelos.Modulo", b =>
-                {
-                    b.Property<int>("ModuloId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ModuloId"), 1L, 1);
-
-                    b.Property<string>("ModuloDescripcion")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("ModuloEstado")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("ModuloFechaCreacion")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ModuloImagen")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ModuloNombre")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ModuloId");
-
-                    b.ToTable("Modulo");
-                });
-
-            modelBuilder.Entity("BerakahOrdenes.Modelos.Rol", b =>
-                {
-                    b.Property<int>("RolId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RolId"), 1L, 1);
-
-                    b.Property<string>("RolDescripcion")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("RolEstado")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("RolFechaCreacion")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("RolNombre")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("RolId");
-
-                    b.ToTable("Rol");
                 });
 
             modelBuilder.Entity("BerakahOrdenes.Modelos.Usuario", b =>

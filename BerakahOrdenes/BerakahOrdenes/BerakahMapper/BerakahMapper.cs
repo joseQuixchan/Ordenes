@@ -9,6 +9,9 @@ namespace BerakahOrdenes.BerakahMapper
         public BerakahMapper()
         {
             CreateMap<Usuario, UsuarioDto>().ReverseMap();
+            CreateMap<Cliente, ClienteDto>().ReverseMap();
+            CreateMap<Modulo, ModuloDto>().ReverseMap();
+            CreateMap<Rol, RolDto>().ReverseMap();
         }
     }
 }

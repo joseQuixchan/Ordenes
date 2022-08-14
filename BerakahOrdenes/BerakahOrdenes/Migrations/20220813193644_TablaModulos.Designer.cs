@@ -4,6 +4,7 @@ using BerakahOrdenes.Datos;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BerakahOrdenes.Migrations
 {
     [DbContext(typeof(DBOrdenes))]
-    partial class DBOrdenesModelSnapshot : ModelSnapshot
+    [Migration("20220813193644_TablaModulos")]
+    partial class TablaModulos
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -69,6 +71,10 @@ namespace BerakahOrdenes.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ModuloId"), 1L, 1);
 
+                    b.Property<string>("ClienteApellido")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ModuloDescripcion")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -90,33 +96,6 @@ namespace BerakahOrdenes.Migrations
                     b.HasKey("ModuloId");
 
                     b.ToTable("Modulo");
-                });
-
-            modelBuilder.Entity("BerakahOrdenes.Modelos.Rol", b =>
-                {
-                    b.Property<int>("RolId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RolId"), 1L, 1);
-
-                    b.Property<string>("RolDescripcion")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("RolEstado")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("RolFechaCreacion")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("RolNombre")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("RolId");
-
-                    b.ToTable("Rol");
                 });
 
             modelBuilder.Entity("BerakahOrdenes.Modelos.Usuario", b =>

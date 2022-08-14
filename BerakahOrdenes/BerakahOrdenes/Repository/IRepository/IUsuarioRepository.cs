@@ -13,6 +13,7 @@ namespace BerakahOrdenes.Repository.IRepository
         bool ExisteUsuario(int idUsuario);
         bool ActualizarUsuario(Usuario usuario);
         bool BorrarUsuario(Usuario usuario);
+        bool ActualizarFechaSesionUsuario(Usuario usuario);
         bool Guardar();
     }
 }

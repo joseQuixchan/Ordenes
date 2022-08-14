@@ -12,6 +12,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
+builder.Services.AddDbContext<DBOrdenes>(Options => Options.UseSqlServer(builder.Configuration.GetConnectionString("ConexionDB")));
+
+
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddSwaggerGen();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
@@ -39,11 +44,12 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 
-//Conexion a base de datos
-builder.Services.AddDbContext<DBOrdenes>(Options => Options.UseSqlServer(builder.Configuration.GetConnectionString("ConexionDB")));
 
 //Modelos
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
+builder.Services.AddScoped<IModuloRepository, ModuloRepository>();
+builder.Services.AddScoped<IRolRepository, RolRepository>();
 builder.Services.AddAutoMapper(typeof(BerakahMapper));
 
 //Agregar dependencia del token
@@ -59,9 +65,17 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+builder.Services.AddCors(opt =>
+{
+    opt.AddDefaultPolicy(builder =>
+    {
+        builder.AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
 
 var app = builder.Build();
 
@@ -72,8 +86,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseHttpsRedirection();
+app.UseAuthentication();
 app.UseAuthorization();
 
+app.UseAuthorization();
 app.MapControllers();
 
+app.UseCors();
 app.Run();

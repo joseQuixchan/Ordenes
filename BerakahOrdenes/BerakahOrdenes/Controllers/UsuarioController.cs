@@ -2,6 +2,7 @@
 using BerakahOrdenes.Modelos;
 using BerakahOrdenes.Modelos.Dtos;
 using BerakahOrdenes.Repository.IRepository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -11,6 +12,7 @@ using System.Text;
 
 namespace BerakahOrdenes.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UsuarioController : ControllerBase
@@ -26,6 +28,7 @@ namespace BerakahOrdenes.Controllers
             _config = config;
         }
 
+        [AllowAnonymous]
         [HttpPost("Login")]
         public IActionResult Login(UsuarioLoginDto usuarioLoginDto)
         {
@@ -121,7 +124,7 @@ namespace BerakahOrdenes.Controllers
         [HttpPatch("{usuarioId:int}", Name = "ActualizarUsuario")]
         public IActionResult ActualizarUsuario(int usuarioId, [FromBody] UsuarioDto usuarioDto)
         {
-            if (usuarioDto == null || usuarioId != usuarioDto.Id)
+            if (usuarioDto == null || usuarioId != usuarioDto.UsuarioId)
             {
                 return BadRequest(ModelState);
             }

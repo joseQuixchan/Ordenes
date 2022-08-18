@@ -61,6 +61,42 @@ namespace BerakahOrdenes.Migrations
                     b.ToTable("Cliente");
                 });
 
+            modelBuilder.Entity("BerakahOrdenes.Modelos.Menu", b =>
+                {
+                    b.Property<int>("MenuId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MenuId"), 1L, 1);
+
+                    b.Property<string>("MenuDescripcion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("MenuEstado")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("MenuFechaCreacion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("MenuImagen")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MenuNombre")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ModuloId")
+                        .HasColumnType("int");
+
+                    b.HasKey("MenuId");
+
+                    b.HasIndex("ModuloId");
+
+                    b.ToTable("Menu");
+                });
+
             modelBuilder.Entity("BerakahOrdenes.Modelos.Modulo", b =>
                 {
                     b.Property<int>("ModuloId")
@@ -117,6 +153,55 @@ namespace BerakahOrdenes.Migrations
                     b.HasKey("RolId");
 
                     b.ToTable("Rol");
+                });
+
+            modelBuilder.Entity("BerakahOrdenes.Modelos.RolMenu", b =>
+                {
+                    b.Property<int>("RolMenuId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RolMenuId"), 1L, 1);
+
+                    b.Property<bool>("Agregar")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Consultar")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Eliminar")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Imprimir")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("MenuId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Modificar")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("RolId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("RolMenuEstado")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("RolMenuFechaCreacion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UsuarioId")
+                        .HasColumnType("int");
+
+                    b.HasKey("RolMenuId");
+
+                    b.HasIndex("MenuId");
+
+                    b.HasIndex("RolId");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("RolMenu");
                 });
 
             modelBuilder.Entity("BerakahOrdenes.Modelos.Usuario", b =>
@@ -196,6 +281,44 @@ namespace BerakahOrdenes.Migrations
                     b.HasIndex("UsuarioId");
 
                     b.ToTable("UsuarioRol");
+                });
+
+            modelBuilder.Entity("BerakahOrdenes.Modelos.Menu", b =>
+                {
+                    b.HasOne("BerakahOrdenes.Modelos.Modulo", "Modulo")
+                        .WithMany()
+                        .HasForeignKey("ModuloId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Modulo");
+                });
+
+            modelBuilder.Entity("BerakahOrdenes.Modelos.RolMenu", b =>
+                {
+                    b.HasOne("BerakahOrdenes.Modelos.Menu", "Menu")
+                        .WithMany()
+                        .HasForeignKey("MenuId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BerakahOrdenes.Modelos.Rol", "Rol")
+                        .WithMany()
+                        .HasForeignKey("RolId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BerakahOrdenes.Modelos.Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Menu");
+
+                    b.Navigation("Rol");
+
+                    b.Navigation("Usuario");
                 });
 
             modelBuilder.Entity("BerakahOrdenes.Modelos.UsuarioRol", b =>

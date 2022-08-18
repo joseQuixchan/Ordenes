@@ -50,6 +50,8 @@ builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
 builder.Services.AddScoped<IModuloRepository, ModuloRepository>();
 builder.Services.AddScoped<IRolRepository, RolRepository>();
+builder.Services.AddScoped<IUsuarioRolRepository, UsuarioRolRepository>();
+builder.Services.AddScoped<IMenuRepository, MenuRepository>();
 builder.Services.AddAutoMapper(typeof(BerakahMapper));
 
 //Agregar dependencia del token

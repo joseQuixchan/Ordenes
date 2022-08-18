@@ -14,6 +14,7 @@ namespace BerakahOrdenes.Repository.IRepository
         bool ActualizarUsuario(Usuario usuario);
         bool BorrarUsuario(Usuario usuario);
         bool ActualizarFechaSesionUsuario(Usuario usuario);
+        public ICollection<Menu> ObtenerMenusUsuario(int idUsuario);
         bool Guardar();
     }
 }

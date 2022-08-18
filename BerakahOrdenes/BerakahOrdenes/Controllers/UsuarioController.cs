@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 
@@ -36,9 +37,9 @@ namespace BerakahOrdenes.Controllers
 
             if (usuario == null)
             {
-                return Unauthorized(0);
+                return Ok("Unauthorized");
             }
-
+            
             _usuarioRepository.ActualizarFechaSesionUsuario(usuario);
             var claims = new[]
             {
@@ -60,14 +61,13 @@ namespace BerakahOrdenes.Controllers
 
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenDescriptor);
-
             return Ok(new
             {
                 token = tokenHandler.WriteToken(token)
             });
         }
 
-
+        [AllowAnonymous]
         [HttpPost("Registro")]
         public IActionResult Registro(UsuarioAuthDto usuarioAuthDto)
         {
@@ -92,6 +92,18 @@ namespace BerakahOrdenes.Controllers
 
             var usuarioCreado = _usuarioRepository.Registro(usuarioACrear, usuarioAuthDto.UsuarioPass);
             return Ok(usuarioCreado);
+        }
+
+        [HttpGet("MenusPorUsuario")]
+        public IActionResult ObtenerMenusUsuario()
+        {
+            var claims = User.Claims.ToList();
+            var usuario = claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+            int usuarioId = Int32.Parse(usuario);
+
+            var menusUsuario = _usuarioRepository.ObtenerMenusUsuario(usuarioId);
+
+            return Ok(menusUsuario);
         }
 
         [HttpGet]

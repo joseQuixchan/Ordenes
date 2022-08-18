@@ -1,6 +1,7 @@
 ﻿using BerakahOrdenes.Datos;
 using BerakahOrdenes.Modelos;
 using BerakahOrdenes.Repository.IRepository;
+using Microsoft.EntityFrameworkCore;
 
 namespace BerakahOrdenes.Repository
 {
@@ -26,20 +27,6 @@ namespace BerakahOrdenes.Repository
             return usuario;
         }
 
-        private bool VerificarPasswordHash(string usuarioPass, byte[] usuarioPassHash, byte[] usuarioPassSalt)
-        {
-            using (var hmac = new System.Security.Cryptography.HMACSHA512(usuarioPassSalt))
-            {
-                var hashComputado = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(usuarioPass));
-
-                for (int i = 0; i < hashComputado.Length; i++)
-                {
-                    if (hashComputado[i] != usuarioPassHash[i]) return false;
-
-                }
-            }
-            return true;
-        }
 
         public Usuario Login(string usuarioUsuario, string usuarioPass)
         {
@@ -66,6 +53,21 @@ namespace BerakahOrdenes.Repository
                 usuarioPassSalt = hmac.Key;
                 usuarioPassHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(usuarioPass));
             }
+        }
+
+        private bool VerificarPasswordHash(string usuarioPass, byte[] usuarioPassHash, byte[] usuarioPassSalt)
+        {
+            using (var hmac = new System.Security.Cryptography.HMACSHA512(usuarioPassSalt))
+            {
+                var hashComputado = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(usuarioPass));
+
+                for (int i = 0; i < hashComputado.Length; i++)
+                {
+                    if (hashComputado[i] != usuarioPassHash[i]) return false;
+
+                }
+            }
+            return true;
         }
 
         public bool ActualizarUsuario(Usuario usuario)
@@ -114,9 +116,22 @@ namespace BerakahOrdenes.Repository
             return _db.SaveChanges() > 0;
         }
 
+    
+
         public bool Guardar()
         {
             return _db.SaveChanges() >= 0 ? true : false;
+        }
+
+        public ICollection<Menu> ObtenerMenusUsuario(int idUsuario)
+        {
+            var rolMenu = _db.RolMenu.Include(i => i.Menu)
+                                     .Where(c => c.UsuarioId == idUsuario).ToList();
+
+            var Menus = rolMenu.Select(x => x.Menu).ToList();
+
+
+            return Menus;
         }
     }
 }

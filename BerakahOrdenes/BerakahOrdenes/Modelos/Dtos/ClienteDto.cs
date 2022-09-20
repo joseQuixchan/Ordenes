@@ -17,6 +17,7 @@ namespace BerakahOrdenes.Modelos.Dtos
         public string ClienteCorreo { get; set; }
         [Required(ErrorMessage = "El correo es obligatgorio")]
         public string ClienteNit { get; set; }
+        public string ClienteDireccion { get; set; }
         public bool ClienteEstado { get; set; }
         public DateTime ClienteFechaCreacion { get; set; }
     }

@@ -38,6 +38,10 @@ namespace BerakahOrdenes.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ClienteDireccion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("ClienteEstado")
                         .HasColumnType("bit");
 
@@ -126,6 +130,72 @@ namespace BerakahOrdenes.Migrations
                     b.HasKey("ModuloId");
 
                     b.ToTable("Modulo");
+                });
+
+            modelBuilder.Entity("BerakahOrdenes.Modelos.Producto", b =>
+                {
+                    b.Property<int>("ProductoId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductoId"), 1L, 1);
+
+                    b.Property<string>("ProductoDescripcion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("ProductoEstado")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("ProductoFechaCreacion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ProductoNombre")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ProductoId");
+
+                    b.ToTable("Producto");
+                });
+
+            modelBuilder.Entity("BerakahOrdenes.Modelos.Proveedor", b =>
+                {
+                    b.Property<int>("ProveedorId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProveedorId"), 1L, 1);
+
+                    b.Property<string>("ProveedorCorreo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProveedorDireccion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("ProveedorEstado")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("ProveedorFechaCreacion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ProveedorNit")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProveedorNombre")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProveedorTelefono")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ProveedorId");
+
+                    b.ToTable("Proveedor");
                 });
 
             modelBuilder.Entity("BerakahOrdenes.Modelos.Rol", b =>

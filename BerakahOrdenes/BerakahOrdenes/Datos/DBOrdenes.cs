@@ -17,5 +17,7 @@ namespace BerakahOrdenes.Datos
         public DbSet<UsuarioRol> UsuarioRol { get; set; }
         public DbSet<Menu> Menu { get; set; }
         public DbSet<RolMenu> RolMenu { get; set; }
+        public DbSet<Proveedor> Proveedor { get; set; }
+        public DbSet<Producto> Producto { get; set; }
     }
 }

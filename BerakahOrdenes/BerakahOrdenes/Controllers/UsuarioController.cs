@@ -55,7 +55,7 @@ namespace BerakahOrdenes.Controllers
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddMinutes(20),
+                Expires = DateTime.UtcNow.AddMinutes(120),
                 SigningCredentials = credenciales
             };
 
@@ -75,7 +75,7 @@ namespace BerakahOrdenes.Controllers
 
             if (_usuarioRepository.ExisteUserName(usuarioAuthDto.Usuario))
             {
-                return BadRequest("El usuario ya existe");
+                return Ok("El usuario ya existe");
             }
 
             var usuarioACrear = new Usuario
@@ -90,8 +90,12 @@ namespace BerakahOrdenes.Controllers
                 UsaurioFechaCreacion = DateTime.Now,
             };
 
-            var usuarioCreado = _usuarioRepository.Registro(usuarioACrear, usuarioAuthDto.UsuarioPass);
-            return Ok(usuarioCreado);
+            if(_usuarioRepository.Registro(usuarioACrear, usuarioAuthDto.UsuarioPass) == false){
+
+                return Ok("Error al ingresar usuario");
+            }
+
+            return Ok(1);
         }
 
         [HttpGet("MenusPorUsuario")]
@@ -126,29 +130,40 @@ namespace BerakahOrdenes.Controllers
 
             if (itemUsuario == null)
             {
-                return NotFound();
+                return Ok("El usuario no fue encontrado");
             }
 
             var itemUsuarioDto = _mapper.Map<UsuarioDto>(itemUsuario);
             return Ok(itemUsuarioDto);
         }
 
-        [HttpPatch("{usuarioId:int}", Name = "ActualizarUsuario")]
-        public IActionResult ActualizarUsuario(int usuarioId, [FromBody] UsuarioDto usuarioDto)
+        [HttpPut("{usuarioId:int}", Name = "ActualizarUsuario")]
+        public IActionResult ActualizarUsuario(int usuarioId, [FromBody] UsuarioActualizarDto usuarioDto)
         {
             if (usuarioDto == null || usuarioId != usuarioDto.UsuarioId)
             {
-                return BadRequest(ModelState);
+                return Ok("Un error a ocurruido");
             }
 
-            var usuario = _mapper.Map<Usuario>(usuarioDto);
+            var usuario = _usuarioRepository.GetUsuario(usuarioDto.UsuarioId);
+            if (usuario == null)
+            {
+                return Ok("Usuario ya no existe");
+            }
+
+            usuario.UsuarioUsuario = usuarioDto.UsuarioUsuario;
+            usuario.UsuarioNombre = usuarioDto.UsuarioNombre;
+            usuario.UsuarioNombre = usuarioDto.UsuarioNombre;
+            usuario.UsuarioCorreo = usuarioDto.UsuarioCorreo;
+            usuario.UsuarioTelefono = usuarioDto.UsuarioTelefono;
 
             if (!_usuarioRepository.ActualizarUsuario(usuario))
             {
                 ModelState.AddModelError("", $"Algo salio mal actualizando el registro{usuario.UsuarioNombre}");
-                return StatusCode(500, ModelState);
+                return Ok(ModelState);
             }
-            return NoContent();
+
+            return Ok(1);
         }
 
         [HttpDelete("{usuarioId:int}", Name = "BorrarUsuario")]

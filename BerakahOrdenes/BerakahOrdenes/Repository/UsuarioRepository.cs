@@ -13,7 +13,7 @@ namespace BerakahOrdenes.Repository
             _db = db;
         }
 
-        public Usuario Registro(Usuario usuario, string password)
+        public bool Registro(Usuario usuario, string password)
         {
             byte[] passwordHash, passwordSaltl;
 
@@ -23,8 +23,8 @@ namespace BerakahOrdenes.Repository
             usuario.UsuarioPassSalt = passwordSaltl;
 
             _db.Usuario.Add(usuario);
-            Guardar();
-            return usuario;
+
+            return Guardar(); 
         }
 
 

@@ -26,6 +26,7 @@ namespace BerakahOrdenes.Repository
 
         public bool CrearCliente(Cliente cliente)
         {
+            
             _db.Cliente.Add(cliente);
             return Guardar();
         }

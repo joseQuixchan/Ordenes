@@ -32,19 +32,22 @@ namespace BerakahOrdenes.Controllers
         {
             if (clienteDto == null)
             {
-                return BadRequest(ModelState);
+                return Ok("Todos los datos son requeridos");
             }
 
+            if (_clienteRepository.ExisteClienteName(clienteDto.ClienteNombre))
+            {
+                return Ok("Ya existe un cliente con este nombre ");
+            }
             var cliente = _mapper.Map<Cliente>(clienteDto);
             cliente.ClienteFechaCreacion = DateTime.Now;
 
             if (!_clienteRepository.CrearCliente(cliente))
             {
-                ModelState.AddModelError("", $"Algo Salio Mal guardando el registro{cliente.ClienteNombre}");
-                return StatusCode(500, ModelState);
+                return Ok("Algo salio mal guardando el registro{cliente.ClienteNombre}");
             }
 
-            return Ok();
+            return Ok(1);
         }
 
 
@@ -75,7 +78,8 @@ namespace BerakahOrdenes.Controllers
             return Ok(itemClienteDto);
         }
 
-        [HttpPatch("{clienteId:int}", Name = "ActualizarCliente")]
+
+        [HttpPut("{clienteId:int}", Name = "ActualizarCliente")]
         public IActionResult ActualizarCliente(int clienteId, [FromBody]ClienteDto clienteDto)
         {
             if (clienteDto == null || clienteId != clienteDto.ClienteId)
@@ -83,14 +87,26 @@ namespace BerakahOrdenes.Controllers
                 return BadRequest(ModelState);
             }
 
-            var cliente = _mapper.Map<Cliente>(clienteDto);
+            var cliente = _clienteRepository.GetCliente(clienteDto.ClienteId);
+            if (cliente == null)
+            {
+                return Ok("El cliente ya no existe");
+            }
+
+            cliente.ClienteNombre = clienteDto.ClienteNombre;
+            cliente.ClienteApellido = clienteDto.ClienteApellido;
+            cliente.ClienteTelefono = clienteDto.ClienteTelefono;
+            cliente.ClienteCorreo = clienteDto.ClienteCorreo;
+            cliente.ClienteNit = clienteDto.ClienteNit;
+            cliente.ClienteDireccion = clienteDto.ClienteDireccion;
+
 
             if (!_clienteRepository.ActualizarCliente(cliente))
             {
                 ModelState.AddModelError("", $"Algo salio mal actualizando el registro{cliente.ClienteNombre}");
-                return StatusCode(500, ModelState);
+                return Ok(ModelState);
             }
-            return NoContent();
+            return Ok(1);
         }
 
         [HttpDelete("{clienteId:int}", Name = "BorrarCliente")]

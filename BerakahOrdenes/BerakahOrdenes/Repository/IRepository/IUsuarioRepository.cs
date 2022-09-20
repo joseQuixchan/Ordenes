@@ -5,7 +5,7 @@ namespace BerakahOrdenes.Repository.IRepository
     public interface IUsuarioRepository
     {
         ICollection<Usuario> GetUsuarios();
-        Usuario Registro(Usuario usuario, string password);
+        bool Registro(Usuario usuario, string password);
         Usuario Login(string usuarioUsuario, string usuarioPass);
         Usuario GetUsuario(int id);
         bool ExisteUserName(string userName);

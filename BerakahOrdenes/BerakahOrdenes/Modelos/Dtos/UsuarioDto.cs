@@ -19,9 +19,6 @@ namespace BerakahOrdenes.Modelos.Dtos
         public string UsuarioCorreo { get; set; }
         [Required(ErrorMessage = "El telefono es obligatgorio")]
         public string UsuarioTelefono { get; set; }
-        public bool UsuarioEstado { get; set; }
-        public DateTime UsuarioFechaSesion { get; set; }
-        public DateTime UsaurioFechaCreacion { get; set; }
     }
 
     public class UsuarioActualizarDto
@@ -40,7 +37,17 @@ namespace BerakahOrdenes.Modelos.Dtos
         [Required(ErrorMessage = "El telefono es obligatgorio")]
         public string UsuarioTelefono { get; set; }
         public bool UsuarioEstado { get; set; }
-        public DateTime UsuarioFechaSesion { get; set; }
-        public DateTime UsaurioFechaCreacion { get; set; }
+    }
+
+    public class UsuarioObtener
+    {
+        public int UsuarioId { get; set; }
+        
+    }
+
+    public class UsuarioPasswordDto
+    {
+        public string PasswordNueva { get; set; }
+        public string? PasswordVieja { get; set; }
     }
 }

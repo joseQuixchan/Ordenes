@@ -1,19 +1,18 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 
 namespace BerakahOrdenes.Modelos
 {
-    public class Cliente
+    public partial class Cliente
     {
-        [Key]
         public int ClienteId { get; set; }
-        public string ClienteNombre { get; set; }
-        public string ClienteApellido { get; set; }
-        public string ClienteTelefono { get; set; }
-        public string ClienteCorreo { get; set; }
-        public string ClienteNit { get; set; }
-        public string ClienteDireccion { get; set; }
+        public string ClienteNombre { get; set; } = null!;
+        public string ClienteApellido { get; set; } = null!;
+        public string ClienteTelefono { get; set; } = null!;
+        public string ClienteCorreo { get; set; } = null!;
+        public string ClienteNit { get; set; } = null!;
         public bool ClienteEstado { get; set; }
         public DateTime ClienteFechaCreacion { get; set; }
+        public string ClienteDireccion { get; set; } = null!;
     }
 }

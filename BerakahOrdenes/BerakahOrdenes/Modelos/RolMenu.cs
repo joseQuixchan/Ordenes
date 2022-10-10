@@ -1,22 +1,14 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using System.Collections.Generic;
 
 namespace BerakahOrdenes.Modelos
 {
-    public class RolMenu
+    public partial class RolMenu
     {
-        [Key]
         public int RolMenuId { get; set; }
         public int RolId { get; set; }
-        [ForeignKey("RolId")]
-        public Rol Rol { get; set; }
         public int MenuId { get; set; }
-        [ForeignKey("MenuId")]
-        public Menu Menu { get; set; }
         public int UsuarioId { get; set; }
-        [ForeignKey("UsuarioId")]
-        public Usuario Usuario { get; set; }
         public bool Agregar { get; set; }
         public bool Modificar { get; set; }
         public bool Consultar { get; set; }
@@ -24,5 +16,9 @@ namespace BerakahOrdenes.Modelos
         public bool Imprimir { get; set; }
         public bool RolMenuEstado { get; set; }
         public DateTime RolMenuFechaCreacion { get; set; }
+
+        public virtual Menu Menu { get; set; } = null!;
+        public virtual Rol Rol { get; set; } = null!;
+        public virtual Usuario Usuario { get; set; } = null!;
     }
 }

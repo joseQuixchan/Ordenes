@@ -14,3 +14,7 @@ build_property.SupportLocalizedComponentNames =
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
 build_property.MSBuildProjectDirectory = D:\GitHub\Ordenes\BerakahOrdenes\BerakahOrdenes
 build_property._RazorSourceGeneratorDebug = 
+
+[D:/GitHub/Ordenes/BerakahOrdenes/BerakahOrdenes/vistas/ImprimirVenta.cshtml]
+build_metadata.AdditionalFiles.TargetPath = dmlzdGFzXEltcHJpbWlyVmVudGEuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 

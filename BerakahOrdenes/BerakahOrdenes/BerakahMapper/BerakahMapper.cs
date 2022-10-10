@@ -10,6 +10,7 @@ namespace BerakahOrdenes.BerakahMapper
         {
             CreateMap<Usuario, UsuarioDto>().ReverseMap();
             CreateMap<Usuario, UsuarioActualizarDto>().ReverseMap();
+            CreateMap<Usuario, UsuarioPerfilDto>().ReverseMap();
             CreateMap<Cliente, ClienteDto>().ReverseMap();
             CreateMap<Modulo, ModuloDto>().ReverseMap();
             CreateMap<Rol, RolDto>().ReverseMap();
@@ -18,6 +19,8 @@ namespace BerakahOrdenes.BerakahMapper
             CreateMap<RolMenu, RolMenuDto>().ReverseMap();
             CreateMap<Proveedor, ProveedorDto>().ReverseMap();
             CreateMap<Producto, ProductoDto>().ReverseMap();
+            CreateMap<Orden, OrdenDto>().ReverseMap();
+            CreateMap<OrdenDetalle, OrdenDetalleDto>().ReverseMap();
         }
     }
 }

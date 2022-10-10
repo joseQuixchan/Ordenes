@@ -1,20 +1,24 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using System.Collections.Generic;
 
 namespace BerakahOrdenes.Modelos
 {
-    public class Menu
+    public partial class Menu
     {
-        [Key]
+        public Menu()
+        {
+            RolMenus = new HashSet<RolMenu>();
+        }
+
         public int MenuId { get; set; }
         public int ModuloId { get; set; }
-        [ForeignKey("ModuloId")]
-        public Modulo Modulo { get; set; }
-        public string MenuNombre { get; set; }
-        public string MenuDescripcion { get; set; }
-        public string MenuImagen { get; set; }
+        public string MenuNombre { get; set; } = null!;
+        public string MenuDescripcion { get; set; } = null!;
+        public string MenuImagen { get; set; } = null!;
         public bool MenuEstado { get; set; }
         public DateTime MenuFechaCreacion { get; set; }
+
+        public virtual Modulo Modulo { get; set; } = null!;
+        public virtual ICollection<RolMenu> RolMenus { get; set; }
     }
 }

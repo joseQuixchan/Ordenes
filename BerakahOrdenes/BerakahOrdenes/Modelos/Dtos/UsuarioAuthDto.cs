@@ -5,7 +5,6 @@ namespace BerakahOrdenes.Modelos.Dtos
 {
     public class UsuarioAuthDto
     {
-        public int UsuarioId { get; set; }
         [Required(ErrorMessage = "El nombre de usuario es obligatgorio")]
         [StringLength(15, MinimumLength = 4, ErrorMessage = "El usuario debe tener entre 4 y 5 caracteres")]
         public string Usuario { get; set; }
@@ -22,7 +21,15 @@ namespace BerakahOrdenes.Modelos.Dtos
         [Required(ErrorMessage = "El telefono es obligatgorio")]
         public string Telefono { get; set; }
         public bool Estado { get; set; }
-        public DateTime FechaSesion { get; set; }
-        public DateTime FechaCreacion { get; set; }
+    }
+
+    public class UsuarioPerfilDto
+    {
+        public string UsuarioUsuario { get; set; }
+        public string UsuarioNombre { get; set; }
+        public string UsuarioApellido { get; set; }
+        public string UsuarioCorreo { get; set; }
+        public bool UsuarioCambioPass { get; set; }
+
     }
 }

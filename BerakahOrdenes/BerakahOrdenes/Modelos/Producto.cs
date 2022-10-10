@@ -1,14 +1,13 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 
 namespace BerakahOrdenes.Modelos
 {
-    public class Producto
+    public partial class Producto
     {
-        [Key]
         public int ProductoId { get; set; }
-        public string ProductoNombre { get; set; }
-        public string ProductoDescripcion { get; set; }
+        public string ProductoNombre { get; set; } = null!;
+        public string ProductoDescripcion { get; set; } = null!;
         public bool ProductoEstado { get; set; }
         public DateTime ProductoFechaCreacion { get; set; }
     }

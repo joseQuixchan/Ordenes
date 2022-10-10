@@ -32,11 +32,6 @@ namespace BerakahOrdenes.Repository
         {
             var usuario = _db.Usuario.FirstOrDefault(x => x.UsuarioUsuario.Equals(usuarioUsuario));
 
-            if (usuario == null)
-            {
-                return null;
-            }
-
             if (!VerificarPasswordHash(usuarioPass, usuario.UsuarioPassHash, usuario.UsuarioPassSalt))
             {
                 return null;
@@ -45,6 +40,18 @@ namespace BerakahOrdenes.Repository
             return usuario;
         }
 
+        public bool ActualizarPassword(Usuario usuario, string password)
+        {
+            byte[] passwordHash, passwordSaltl;
+
+            CrearPasswordHash(password, out passwordHash, out passwordSaltl);
+
+            usuario.UsuarioPassHash = passwordHash;
+            usuario.UsuarioPassSalt = passwordSaltl;
+
+            _db.Usuario.Update(usuario);
+            return Guardar();
+        }
 
         private void CrearPasswordHash(string usuarioPass, out byte[] usuarioPassHash, out byte[] usuarioPassSalt)
         {
@@ -52,6 +59,8 @@ namespace BerakahOrdenes.Repository
             {
                 usuarioPassSalt = hmac.Key;
                 usuarioPassHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(usuarioPass));
+
+
             }
         }
 

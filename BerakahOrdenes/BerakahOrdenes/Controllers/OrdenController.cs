@@ -119,11 +119,43 @@ namespace BerakahOrdenes.Controllers
         [HttpGet("GenerarPdf")]
         public async Task<IActionResult> GetOrdenPDF(int ordenId)
         {
+            if(ordenId < 0)
+            {
+                return Ok("El numero de orden es necesario");
+            }
             var orden = _ordenRepository.GetOrden(ordenId);
+            decimal subTotal = 0;
+
+            foreach(var total in orden.OrdenDetalles)
+            {
+                subTotal = total.Total + subTotal;
+            }
+
             var itnemOrden = _mapper.Map<OrdenDto>(orden);
+            itnemOrden.Subtotal = subTotal;
 
             return await _pdf.GetPdf("vistas/ImprimirVenta.cshtml", itnemOrden);
            
+        }
+
+        [HttpGet("OrdenDetalles")]
+        public ActionResult GetOrdenDetalle(int ordenId)
+        {
+            if (ordenId < 0)
+            {
+                return Ok("El numero de orden es necesario");
+            }
+
+            var Detalles = _ordenDetalleRepository.GetOrdenDetalles(ordenId);
+            var listaDetallesDto = new List<OrdenDetalleDto>();
+
+            foreach (var lista in Detalles)
+            {
+                listaDetallesDto.Add(_mapper.Map<OrdenDetalleDto>(lista));
+            }
+
+            return Ok(listaDetallesDto);
+
         }
 
         [HttpGet("{ordenId:int}", Name = "GetOrden")]

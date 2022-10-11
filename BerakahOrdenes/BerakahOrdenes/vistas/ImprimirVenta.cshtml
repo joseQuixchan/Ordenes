@@ -124,10 +124,16 @@
                             <td><p class="title">CLIENTE</p></td>
                         </tr>
                         <tr>
-                            <td><p class="text"></p></td>
+                            <td><p class="text">@Model.ClienteNombre</p></td>
                         </tr>
                         <tr>
-                            <td><p class="text"></p></td>
+                            <td><p class="text">@Model.ClienteDireccion</p></td>
+                        </tr>
+                        <tr>
+                            <td><p class="text"@Model.ClienteTelefono || @Model.ClienteCorreo></p></td>
+                        </tr>
+                       <tr>
+                            <td><p class="text">Nit: @Model.ClienteNit</p></td>
                         </tr>
                     </table>
                 </td>
@@ -160,40 +166,18 @@
 
                     }
                 }
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                   
-                    <td  class="td-item">
-                        <p class="item-2">Sub Total</p>
-                    </td>
-                     <td class="item-3">
-                         <p></p>
-                    </td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                   @* <td colspan="2"></td>*@
-                    <td class="td-item">
-                        <p class="item-2" >IGV</p>
-                    </td>
-                     <td class="item-3">
-                         <p></p>
-                    </td>
-                </tr>
+               
+                
                  <tr>
                      <td></td>
                     <td></td>
                     <td></td>
                     @*<td colspan="2"></td>*@
                     <td class="item-3">
-                        <p >Total</p>
+                        <p >SUB TOTAL</p>
                     </td>
                      <td class="item-3">
-                         <p></p>
+                         <p>Q. @Model.Subtotal</p>
                     </td>
                 </tr>
             </tbody>

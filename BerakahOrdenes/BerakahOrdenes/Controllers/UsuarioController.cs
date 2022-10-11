@@ -111,8 +111,9 @@ namespace BerakahOrdenes.Controllers
                 UsuarioFechaCambioPass = DateTime.Now,
                 UsaurioFechaCreacion = DateTime.Now,
             };
+            
 
-            if(_usuarioRepository.Registro(usuarioACrear, usuarioAuthDto.UsuarioPass) == false){
+            if (_usuarioRepository.Registro(usuarioACrear, usuarioAuthDto.UsuarioPass) == false){
 
                 return Ok("Error al ingresar usuario");
             }

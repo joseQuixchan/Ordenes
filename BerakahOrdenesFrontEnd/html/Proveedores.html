@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Berakah</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+    
+    
+    <!-- Favicon -->
+    <link href="../img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="../lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="../lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">  
+
+    <!-- Template Stylesheet -->
+    <link href="../css/style.css" rel="stylesheet">
+
+</head>
+
+<body onload="ObtenerMenus(); ObtenerProveedores();">
+    <div class="container-xxl position-relative bg-white d-flex p-0">
+        <!-- Spinner Start -->
+        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <!-- Spinner End -->
+
+
+        <!-- Sidebar Start -->
+        <div class="sidebar pe-4 pb-3">
+            <nav class="navbar bg-light navbar-light">
+                <a href="../index.html" class="navbar-brand mx-4 mb-3">
+                    <img src="../img/LOGO BERAKAH.png" alt="" style="max-width: 200px;">
+                </a>
+                <div class="d-flex align-items-center ms-4 mb-4">
+                    <div class="position-relative">
+                        <img class="rounded-circle" src="../img/avatarMain.png" alt="" style="width: 40px; height: 40px;">
+                        <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
+                    </div>
+
+                    <!-- Datos usuario -->
+                    <div class="ms-3">
+                        <h6 class="mb-0" id="usuario"></h6>
+                        <span id="nombre"></span>
+                    </div>
+
+                </div>
+
+
+                <div class="navbar-nav w-100" id="Menus">
+
+                    <a href="../index.html" class="nav-item nav-link"><i class="fa fad fa-tachometer-alt me-2"></i>Dashboard</a>
+                   
+                </div>
+            </nav>
+        </div>
+        <!-- Sidebar End -->
+
+
+        <!-- Content Start -->
+        <div class="content">
+            <!-- Navbar Start -->
+            <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
+                <a href="../index.html" class="navbar-brand d-flex d-lg-none me-4">
+                    <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
+                </a>
+                <a href="#" class="sidebar-toggler flex-shrink-0">
+                    <i class="fa fa-bars"></i>
+                </a>
+                <form class="d-none d-md-flex ms-4">
+                    <input class="form-control border-0" type="search" placeholder="Buscar...">
+                </form>
+                <div class="navbar-nav align-items-center ms-auto">
+                    
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                            <i class="fa fa-bell me-lg-2"></i>
+                            <span class="d-none d-lg-inline-flex">Notificaciones</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                            <a href="#" class="dropdown-item">
+                                <h6 class="fw-normal mb-0">Profile updated</h6>
+                                <small>15 minutes ago</small>
+                            </a>
+                            <hr class="dropdown-divider">
+                            <a href="#" class="dropdown-item">
+                                <h6 class="fw-normal mb-0">New user added</h6>
+                                <small>15 minutes ago</small>
+                            </a>
+                            <hr class="dropdown-divider">
+                            <a href="#" class="dropdown-item">
+                                <h6 class="fw-normal mb-0">Password changed</h6>
+                                <small>15 minutes ago</small>
+                            </a>
+                            <hr class="dropdown-divider">
+                            <a href="#" class="dropdown-item text-center">See all notifications</a>
+                        </div>
+                    </div>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                            <img class="rounded-circle me-lg-2" src="../img/avatarMain.png" alt="" style="width: 40px; height: 40px;">
+                            <span id="nombre1"></span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
+                            <a href="#" class="dropdown-item"><i class="fa fad fa-user"></i> Perfil</a>
+                            <a href="#" class="dropdown-item"><i class="fa fad fa-cog"></i> Ajustes</a>
+                            <a href="../signin.html" class="dropdown-item" onclick="BorrarLocalStorage();"><i class="fa fas fa-door-open"></i> Salir</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            
+            <!-- Navbar End -->
+
+            <!-- tabla -->
+        <div class="container-fluid pt-4 px-4">
+            <div class="col-12 tabla">
+                <div class="bg-light rounded h-100 p-4">
+                    <div class="prueba">
+                        
+                            <h6 class="mb-4">Modulo Proveedores</h6>
+                   
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-success m-2 " data-toggle="modal" data-target="#ModalCliente" onclick="LimpiarFormulario();">
+                                Nuevo Proveedor
+                                <i class="fa fa-user ms-2"></i>
+                            </button>
+                        
+                        
+                        
+                        <!-- Modal -->
+                        <div class="modal fade" id="ModalCliente" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Nuevo Proveedor</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+
+                                <!-- Modal -->
+                                <div class="modal-body">
+                                    <!-- Formulario -->
+                                    <div>
+                                        <div class="bg-transparent rounded h-100 p-4">
+                                            <h6 class="mb-4">Proveedor</h6>
+                                            <div class="input-group mb-3">
+                                                <input type="text" class="form-control" placeholder="Nombres" id="ProveedorNombre" autocomplete="off">
+                                            </div>
+                                            <div class="input-group mb-3">
+                                                <span class="input-group-text" id="basic-addon1">+502</span>
+                                                <input type="text" class="form-control" placeholder="Telefono" id="ProveedorTelefono" autocomplete="off">
+                                            </div>
+                                            <div class="input-group mb-3">
+                                                <input type="text" class="form-control" placeholder="Correo Contacto" id="ProveedorCorreo" autocomplete="off">
+                                            </div>
+                                            <div class="input-group mb-3">
+                                                <input type="text" class="form-control" placeholder="Nit" id="ProveedorNit" autocomplete="off">
+                                            </div><div class="input-group mb-3">
+                                                <input type="text" class="form-control" placeholder="Dirección" id="ProveedorDireccion" autocomplete="off">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-success m-2" onclick="AgregarProveedor();">Guardar</button>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table" id="tablaProveedores">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#Id</th>
+                                    <th scope="col">Nombres</th>
+                                    <th scope="col">Telefono</th>
+                                    <th scope="col">Correo</th>
+                                    <th scope="col">Nit</th>
+                                    <th scope="col">Dirección</th>
+                                    <th scope="col">Editar</th>
+                                    <th scope="col">Eliminar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+            <!-- tabla end-->
+
+             <!-- Modal -->
+                <div class="modal fade" id="ModalActualizarUsuario" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Actualizar Proveedor</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+
+                        <!-- Modal -->
+                        <div class="modal-body">
+                                <div class="bg-transparent rounded h-100 p-4">
+                                    <input type="hidden" id="ProveedorId" value="0">
+                                    <h6 class="mb-4">Proveedor</h6>
+
+                                    <label>Nombre</label>
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" placeholder="Nombre" id="ProveedorNombreA" autocomplete="off">
+                                    </div>
+
+                                    <label>Teléfono</label>
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text" id="basic-addon1">+502</span>
+                                        <input type="text" class="form-control" placeholder="Telefono" id="ProveedorTelefonoA" autocomplete="off">
+                                    </div>
+
+                                    <label>Correo Contácto</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" placeholder="Correo Contacto" id="ProveedorCorreoA" autocomplete="off">
+                                    </div>
+
+                                    <label>Nit</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" placeholder="Nit" id="ProveedorNitA" autocomplete="off">
+                                    </div>
+
+                                    <label>Dirección</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" placeholder="Dirección" id="ProveedorDireccionA" autocomplete="off">
+                                    </div>
+                                </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-success m-2" onclick="ActualizarProveedor();">Guardar</button>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <!-- Footer Start -->
+            <div class="container-fluid pt-4 px-4">
+                <div class="bg-light rounded-top p-4">
+                    <div class="row">
+                        <div class="col-12 col-sm-6 text-center text-sm-start">
+                            &copy; <a href="#">Multinegocios Berakah</a>, todos los derechos recervados. 
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Footer End -->
+        </div>
+        <!-- Content End -->
+
+
+        <!-- Back to Top -->
+        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../lib/chart/chart.min.js"></script>
+    <script src="../lib/easing/easing.min.js"></script>
+    <script src="../lib/waypoints/waypoints.min.js"></script>
+    <script src="../lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="../lib/tempusdominus/js/moment.min.js"></script>
+    <script src="../lib/tempusdominus/js/moment-timezone.min.js"></script>
+    <script src="../lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+    
+
+    <script script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Template Javascript -->
+    <script src="../js/constantes.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="../js/proveedores.js"></script>
+    
+</body>
+
+</html>

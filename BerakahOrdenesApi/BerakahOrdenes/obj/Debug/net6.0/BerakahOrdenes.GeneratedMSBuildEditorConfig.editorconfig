@@ -8,13 +8,13 @@ build_property.PlatformNeutralAssembly =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = BerakahOrdenes
 build_property.RootNamespace = BerakahOrdenes
-build_property.ProjectDir = D:\GitHub\Ordenes\BerakahOrdenes\BerakahOrdenes\
+build_property.ProjectDir = D:\GitHub\Ordenes\BerakahOrdenesApi\BerakahOrdenes\
 build_property.RazorLangVersion = 6.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = D:\GitHub\Ordenes\BerakahOrdenes\BerakahOrdenes
+build_property.MSBuildProjectDirectory = D:\GitHub\Ordenes\BerakahOrdenesApi\BerakahOrdenes
 build_property._RazorSourceGeneratorDebug = 
 
-[D:/GitHub/Ordenes/BerakahOrdenes/BerakahOrdenes/vistas/ImprimirVenta.cshtml]
+[D:/GitHub/Ordenes/BerakahOrdenesApi/BerakahOrdenes/vistas/ImprimirVenta.cshtml]
 build_metadata.AdditionalFiles.TargetPath = dmlzdGFzXEltcHJpbWlyVmVudGEuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 

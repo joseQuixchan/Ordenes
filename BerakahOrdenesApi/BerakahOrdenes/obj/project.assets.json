@@ -12174,11 +12174,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\GitHub\\Ordenes\\BerakahOrdenes\\BerakahOrdenes\\BerakahOrdenes.csproj",
+      "projectUniqueName": "D:\\GitHub\\Ordenes\\BerakahOrdenesApi\\BerakahOrdenes\\BerakahOrdenes.csproj",
       "projectName": "BerakahOrdenes",
-      "projectPath": "D:\\GitHub\\Ordenes\\BerakahOrdenes\\BerakahOrdenes\\BerakahOrdenes.csproj",
+      "projectPath": "D:\\GitHub\\Ordenes\\BerakahOrdenesApi\\BerakahOrdenes\\BerakahOrdenes.csproj",
       "packagesPath": "C:\\Users\\Familia Guzman\\.nuget\\packages\\",
-      "outputPath": "D:\\GitHub\\Ordenes\\BerakahOrdenes\\BerakahOrdenes\\obj\\",
+      "outputPath": "D:\\GitHub\\Ordenes\\BerakahOrdenesApi\\BerakahOrdenes\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Familia Guzman\\AppData\\Roaming\\NuGet\\NuGet.Config",

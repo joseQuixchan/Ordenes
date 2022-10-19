@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "26aJrOwJvve2CSIx8ybwvTBMZGBjwosS/lGRVzo9aJt59nNGabgFzW5HwX9i62+vSfrWXjmP034IYEFymzvRPw==",
+  "dgSpecHash": "5OLTWRz66j/8W1txkaZWq/cChTheUiRXF8ZB+WpUn6Jbu7AFL947CmB//FfY9ghxge8UAC/2hV1AczE8iqprVA==",
   "success": true,
-  "projectFilePath": "D:\\GitHub\\Ordenes\\BerakahOrdenes\\BerakahOrdenes\\BerakahOrdenes.csproj",
+  "projectFilePath": "D:\\GitHub\\Ordenes\\BerakahOrdenesApi\\BerakahOrdenes\\BerakahOrdenes.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Familia Guzman\\.nuget\\packages\\automapper\\11.0.1\\automapper.11.0.1.nupkg.sha512",
     "C:\\Users\\Familia Guzman\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\11.0.0\\automapper.extensions.microsoft.dependencyinjection.11.0.0.nupkg.sha512",

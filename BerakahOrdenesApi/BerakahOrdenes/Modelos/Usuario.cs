@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BerakahOrdenes.Modelos
 {
@@ -22,6 +23,9 @@ namespace BerakahOrdenes.Modelos
         public string UsuarioCorreo { get; set; } = null!;
         public string UsuarioTelefono { get; set; } = null!;
         public bool UsuarioEstado { get; set; }
+        public int? UsuarioRolId { get; set; }
+        [ForeignKey("UsuarioRolId")]
+        public Rol Rol { get; set; }
         public DateTime UsuarioFechaSesion { get; set; }
         public DateTime UsaurioFechaCreacion { get; set; }
         public bool? UsuarioCambioPass { get; set; }

@@ -48,7 +48,7 @@ namespace BerakahOrdenes.Repository
 
         public ICollection<Menu> GetMenus()
         {
-            return _db.Menu.OrderBy(c => c.MenuNombre).ToList();
+            return _db.Menu.OrderBy(c => c.MenuNombre).Where(w => w.MenuEstado == true).ToList();
         }
 
         public bool Guardar()

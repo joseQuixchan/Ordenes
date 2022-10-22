@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <title>Berakah</title>
+    <link rel="icon" href="../img/logo.png">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -121,7 +122,7 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
                             <a href="#" class="dropdown-item"><i class="fa fad fa-user"></i> Perfil</a>
-                            <a href="#" class="dropdown-item"><i class="fa fad fa-cog"></i> Ajustes</a>
+                            <a href="CambioPasswordUsuario.html" class="dropdown-item"><i class="fa fad fa-cog"></i> Ajustes</a>
                             <a href="../signin.html" class="dropdown-item" onclick="BorrarLocalStorage();"><i class="fa fas fa-door-open"></i> Salir</a>
                         </div>
                     </div>
@@ -138,7 +139,7 @@
                             <h6 class="mb-4">Modulo Usuarios</h6>
                    
                             <!-- Button trigger modal -->
-                            <button type="button" class="btn btn-success m-2 " data-toggle="modal" data-target="#ModalUsuario" onclick="LimpiarFormulario();">
+                            <button type="button" class="btn btn-success m-2 " data-toggle="modal" data-target="#ModalUsuario" onclick="LimpiarFormulario(); Obtenerroles(null);">
                                 Nuevo usuario
                                 <i class="fa fa-user ms-2"></i>
                             </button>
@@ -185,6 +186,8 @@
                                                 <span class="input-group-text"><i class="fa fad fa-envelope"></i></span>
                                                 <input type="text" class="form-control" placeholder="Correo Contacto" id="UsuarioCorreo" autocomplete="off">
                                             </div>
+                                            <span class="input-group-text" >Rol</span>
+                                            <select class="form-select form-select-sm mb-3" id="Roles" style="margin-top: 10px;"></select>
                                         </div>
                                     </div>
                                 </div>
@@ -209,6 +212,7 @@
                                     <th scope="col">Apellidos</th>
                                     <th scope="col">Correo</th>
                                     <th scope="col">Telefono</th>
+                                    <th scope="col">Rol</th>
                                     <th scope="col">Editar</th>
                                     <th scope="col">Eliminar</th>
                                 </tr>
@@ -262,10 +266,14 @@
                                     </div>
 
                                     <label>Correo Contácto</label>
-                                    <div class="input-group">
+                                    <div class="input-group" style="margin-bottom: 10px;">
                                         <input type="text" class="form-control" placeholder="Correo Contacto" id="UsuarioCorreoA" autocomplete="off">
                                     </div>
+                                    <span class="input-group-text" >Rol</span>
+                                    <select class="form-select form-select-sm mb-3" id="RolesA" style="margin-top: 10px;"></select>
                                 </div>
+
+                                
                         </div>
 
                         <div class="modal-footer">

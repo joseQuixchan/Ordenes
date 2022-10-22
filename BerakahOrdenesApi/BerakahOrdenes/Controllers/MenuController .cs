@@ -44,9 +44,8 @@ namespace BerakahOrdenes.Controllers
                 return StatusCode(500, ModelState);
             }
 
-            return Ok();
+            return Ok(1);
         }
-
 
         [HttpGet]
         public ActionResult GetMenus()
@@ -58,8 +57,11 @@ namespace BerakahOrdenes.Controllers
             {
                 listaMenusDto.Add(_mapper.Map<MenuDto>(lista));
             }
+
             return Ok(listaMenusDto);
         }
+
+
 
         [HttpGet("{menuId:int}", Name = "GetMenu")]
         public IActionResult GetMenu(int menuId)

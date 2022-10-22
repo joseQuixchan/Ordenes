@@ -37,10 +37,10 @@ namespace BerakahOrdenes.Controllers
             if (!_rolRepository.CrearRol(rol))
             {
                 ModelState.AddModelError("", $"Algo Salio Mal guardando el registro{rol.RolNombre}");
-                return StatusCode(500, ModelState);
+                return Ok(2);
             }
 
-            return Ok();
+            return Ok(1);
         }
 
 
@@ -71,22 +71,29 @@ namespace BerakahOrdenes.Controllers
             return Ok(itemRolDto);
         }
 
-        [HttpPatch("{rolId:int}", Name = "ActualizarRol")]
+        [HttpPut("{rolId:int}", Name = "ActualizarRol")]
         public IActionResult ActualizarRol(int rolId, [FromBody]RolDto rolDto)
         {
-            if (rolDto == null || rolId != rolDto.RoloId)
+            if (rolDto == null || rolId != rolDto.RolId)
             {
-                return BadRequest(ModelState);
+                return Ok(2);
             }
 
-            var rol = _mapper.Map<Rol>(rolDto);
+            var rol = _rolRepository.GetRol(rolDto.RolId);
+            if (rol == null)
+            {
+                return Ok("El producto ya no existe");
+            }
+
+            rol.RolNombre = rolDto.RolNombre;
+            rol.RolDescripcion = rolDto.RolDescripcion;
 
             if (!_rolRepository.ActualizarRol(rol))
             {
-                ModelState.AddModelError("", $"Algo salio mal actualizando el registro{rol.RolNombre}");
-                return StatusCode(500, ModelState);
+                ModelState.AddModelError("", $"Algo salio mal actualizando el registro");
+                return Ok(2);
             }
-            return NoContent();
+            return Ok(1);
         }
 
         [HttpDelete("{rolId:int}", Name = "BorrarRol")]

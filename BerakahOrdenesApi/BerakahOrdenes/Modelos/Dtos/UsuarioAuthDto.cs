@@ -20,7 +20,7 @@ namespace BerakahOrdenes.Modelos.Dtos
         public string Correo { get; set; }
         [Required(ErrorMessage = "El telefono es obligatgorio")]
         public string Telefono { get; set; }
-        public bool Estado { get; set; }
+        public int UsuarioRolId { get; set; }
     }
 
     public class UsuarioPerfilDto

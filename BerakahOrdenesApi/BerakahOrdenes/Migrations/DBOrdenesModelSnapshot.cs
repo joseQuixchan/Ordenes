@@ -359,6 +359,34 @@ namespace BerakahOrdenes.Migrations
                     b.ToTable("RolMenu");
                 });
 
+            modelBuilder.Entity("BerakahOrdenes.Modelos.Token", b =>
+                {
+                    b.Property<int>("TokenId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TokenId"), 1L, 1);
+
+                    b.Property<string>("CodigoSeguridad")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TokenEstado")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("TokenFechaCreacion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UsuarioId")
+                        .HasColumnType("int");
+
+                    b.HasKey("TokenId");
+
+                    b.HasIndex("UsuarioId");
+
+                    b.ToTable("Token");
+                });
+
             modelBuilder.Entity("BerakahOrdenes.Modelos.Usuario", b =>
                 {
                     b.Property<int>("UsuarioId")
@@ -411,6 +439,9 @@ namespace BerakahOrdenes.Migrations
                     b.Property<byte[]>("UsuarioPassSaltAnterior")
                         .HasColumnType("varbinary(max)");
 
+                    b.Property<int?>("UsuarioRolId")
+                        .HasColumnType("int");
+
                     b.Property<string>("UsuarioTelefono")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -423,6 +454,8 @@ namespace BerakahOrdenes.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("UsuarioId");
+
+                    b.HasIndex("UsuarioRolId");
 
                     b.ToTable("Usuario");
                 });
@@ -503,6 +536,26 @@ namespace BerakahOrdenes.Migrations
                     b.Navigation("Rol");
 
                     b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("BerakahOrdenes.Modelos.Token", b =>
+                {
+                    b.HasOne("BerakahOrdenes.Modelos.Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UsuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("BerakahOrdenes.Modelos.Usuario", b =>
+                {
+                    b.HasOne("BerakahOrdenes.Modelos.Rol", "Rol")
+                        .WithMany()
+                        .HasForeignKey("UsuarioRolId");
+
+                    b.Navigation("Rol");
                 });
 
             modelBuilder.Entity("BerakahOrdenes.Modelos.UsuarioRol", b =>

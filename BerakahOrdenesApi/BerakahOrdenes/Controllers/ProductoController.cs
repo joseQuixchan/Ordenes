@@ -103,7 +103,7 @@ namespace BerakahOrdenes.Controllers
             if (!_productoRepository.ActualizarProducto(producto))
             {
                 ModelState.AddModelError("", $"Algo salio mal actualizando el registro");
-                return Ok(ModelState);
+                return Ok(2);
             }
             return Ok(1);
         }

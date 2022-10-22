@@ -49,7 +49,7 @@ namespace BerakahOrdenes.Repository
 
         public ICollection<Orden> GetOrdenes()
         {
-            return _db.Orden.OrderBy(c => c.OrdenId).ToList();
+            return _db.Orden.OrderByDescending(c => c.OrdenFechaCreacion).ToList();
         }
 
         public bool Guardar()

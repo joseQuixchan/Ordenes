@@ -87,7 +87,58 @@ function CambiarPasword(){
     }
 }
 
+function CambiarPaswordUsuario(){
+    var pass1 = $("#Password1").val()
+    var pass2 = $("#Password2").val()  
+    if(pass1 == pass2){
+        var settings = {
+            "url": UrlApi + "Usuario/ActualizarPasswordUsuario",
+            "method": "Put",
+            "timeout": 0,
+            "headers": {
+              "Authorization": "Bearer " + token.token,
+              "Content-Type": "application/json"
+            },
+            "data": JSON.stringify({
+                "passwordNueva": $("#Password1").val(),
+                "passwordVieja": $("#PasswordActual").val()
+            }),
+          };
+          
+          $.ajax(settings).done(function (response) {
+            if(response == 1){
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Contraseña actualizada!',
+                  showConfirmButton: false,
+                  timer: 2000
+                  })
+                  limpiarFormulario();
+              }else{
+                Swal.fire({
+                  icon: 'error',
+                  title: response,
+                  showConfirmButton: false,
+                  timer: 2000
+                  })
+              }
+          });
+    }else{
+        Swal.fire({
+            icon: 'error',
+            title: 'Las contraseñas no son iguales',
+            showConfirmButton: false,
+            timer: 2000
+        })
+    }
+}
 
+
+function limpiarFormulario(){
+    $("#Password1").val(''),
+    $("#Password2").val(''),
+    $("#PasswordActual").val('')
+}
 
 
 (function ($) {

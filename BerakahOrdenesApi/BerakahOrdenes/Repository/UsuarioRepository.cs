@@ -93,6 +93,12 @@ namespace BerakahOrdenes.Repository
             return Guardar();
         }
 
+        public Usuario ExisteUserName2(string userName)
+        {
+            var valor = _db.Usuario.FirstOrDefault(c => c.UsuarioUsuario.ToLower().Trim().Equals(userName.ToLower().Trim()));
+            return valor;
+        }
+
         public bool ExisteUserName(string userName)
         {
             bool valor = _db.Usuario.Any(c => c.UsuarioUsuario.ToLower().Trim().Equals(userName.ToLower().Trim()));
@@ -112,12 +118,12 @@ namespace BerakahOrdenes.Repository
 
         public Usuario GetUsuario(int id)
         {
-            return _db.Usuario.FirstOrDefault(c => c.UsuarioId == id);
+            return _db.Usuario.Include(i => i.Rol).FirstOrDefault(c => c.UsuarioId == id);
         }
 
         public ICollection<Usuario> GetUsuarios()
         {
-            return _db.Usuario.OrderBy(c => c.UsuarioNombre).ToList();
+            return _db.Usuario.Include(i => i.Rol).OrderBy(c => c.UsuarioNombre).ToList();
         }
 
         public bool ActualizarFechaSesionUsuario(Usuario usuario)
@@ -134,10 +140,10 @@ namespace BerakahOrdenes.Repository
             return _db.SaveChanges() >= 0 ? true : false;
         }
 
-        public ICollection<Menu> ObtenerMenusUsuario(int idUsuario)
+        public ICollection<Menu> ObtenerMenusUsuario(int idUsuario, int? idRol)
         {
             var rolMenu = _db.RolMenu.Include(i => i.Menu)
-                                     .Where(c => c.UsuarioId == idUsuario).ToList();
+                                     .Where(c => c.UsuarioId == idUsuario && c.RolId == idRol && c.RolMenuEstado == true).ToList();
 
             var Menus = rolMenu.Select(x => x.Menu).ToList();
 

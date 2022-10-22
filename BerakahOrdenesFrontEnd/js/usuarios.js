@@ -13,13 +13,17 @@ function ObtenerUsuarios(){
     
     $.ajax(settings).done(function (response) {
       $.each(response, function(_index, data){
+          if(data.rol.rolNombre == null){
+            data.rol.rolNombre == "N/I"
+          }
           var fila = "<tbody><tr><th scope='row'>" + data.usuarioId + 
           "</th><td>" + data.usuarioUsuario +
           "</td><td>" + data.usuarioNombre +
           "</td><td>" + data.usuarioApellido +
           "</td><td>" + data.usuarioCorreo +
           "</td><td>" + data.usuarioTelefono +
-          "</td><td><button type='button' class='btn btn-primary m-0' onClick='ObtenerDatosUsuario("+ data.usuarioId +")' data-toggle='modal' data-target='#ModalActualizarUsuario'><i class='fa fad fa-edit'></i></button>" +
+          "</td><td>" + data.rol.rolNombre +
+          "</td><td><button type='button' class='btn btn-primary m-0' onClick='ObtenerDatosUsuario("+ data.usuarioId +") , Obtenerroles(1)' data-toggle='modal' data-target='#ModalActualizarUsuario'><i class='fa fad fa-edit'></i></button>" +
           "</td><td><button type='button' class='btn btn-danger m-0'><i class='fa fad fa-ban'></i></button></tr></tbody>";
           $(fila).appendTo("#tablaUsuarios");
       });
@@ -47,6 +51,7 @@ function AgregarUsuario(){
           "apellido": $("#UsuarioApellido").val(),
           "correo": $("#UsuarioCorreo").val(),
           "telefono": $("#UsuarioTelefono").val(),
+          "usuarioRolId": $("#Roles").val(),
           "estado": true
       }),
       
@@ -63,7 +68,6 @@ function AgregarUsuario(){
             LimpiarFormulario();
             LimpiarTabla();
             ObtenerUsuarios();
-            console.log(response.status);
         }else{
           Swal.fire({
             icon: 'error',
@@ -87,6 +91,7 @@ function ObtenerUsuario(UsuarioId){
     };
     
     $.ajax(settings).done(function (response) {
+      console.log(response);
         LimpiarFormulario();
         $("#UsuarioId").val(UsuarioId);
         $("#UsuarioUsuarioA").val(response.usuarioUsuario);
@@ -94,6 +99,36 @@ function ObtenerUsuario(UsuarioId){
         $("#UsuarioApellidoA").val(response.usuarioApellido);
         $("#UsuarioCorreoA").val(response.usuarioCorreo);
         $("#UsuarioTelefonoA").val(response.usuarioTelefono);
+        var roles = "<option value= '"+ response.rol.rolId + "' selected>" + response.rol.rolNombre + "</option>";
+        $(roles).appendTo("#RolesA");
+    }); 
+}
+
+function Obtenerroles(Modifica){
+  $('#Roles option').remove();
+  $('#RolesA option').remove();
+  var settings = {
+      "url": UrlApi + "Rol",
+      "method": "Get",
+      "timeout": 0,
+      "headers": {
+        "Authorization": "Bearer " + token.token,
+      },
+    };
+    if(Modifica != 1){
+      $.ajax(settings).done(function (response) {
+        $.each(response, function(_index, data){
+          var roles = "<option value= '"+ data.rolId + "' >" + data.rolNombre + "</option>";
+          $(roles).appendTo("#Roles");
+        });
+      }); 
+    }
+    
+    $.ajax(settings).done(function (response) {
+      $.each(response, function(_index, data){
+        var roles = "<option value= '"+ data.rolId + "' >" + data.rolNombre + "</option>";
+        $(roles).appendTo("#RolesA");
+      });
     }); 
 }
 
@@ -113,6 +148,7 @@ function ActualizarUsuario(){
           "usuarioApellido": $("#UsuarioApellidoA").val(),
           "usuarioCorreo": $("#UsuarioCorreoA").val(),
           "usuarioTelefono": $("#UsuarioTelefonoA").val(),
+          "UsuarioRolId": $("#RolesA").val(),
           "usuarioWstado": true
       }),
       

@@ -101,6 +101,17 @@ namespace BerakahOrdenes.Controllers
         [HttpPost("Registro")]
         public IActionResult Registro(UsuarioAuthDto usuarioAuthDto)
         {
+            var permiso = _usuarioRepository.GetUsuarioPermisos(UsuarioAutenticado(), 1);
+            if (permiso == null)
+            {
+                return Ok("Error al realizar la accion, contact con su superior");
+            }
+
+            if (permiso.Agregar == false)
+            {
+                return Ok("No puedes hacer esta accion");
+            }
+
             usuarioAuthDto.Usuario = usuarioAuthDto.Usuario.ToLower();
 
             if (_usuarioRepository.ExisteUserName(usuarioAuthDto.Usuario))
@@ -172,6 +183,8 @@ namespace BerakahOrdenes.Controllers
         [HttpGet]
         public ActionResult GetUsuarios()
         {
+            
+
             var listaUsuarios = _usuarioRepository.GetUsuarios();
             var listaUsuariosDto = new List<UsuarioDto>();
 
@@ -185,6 +198,17 @@ namespace BerakahOrdenes.Controllers
         [HttpGet("{usuarioId:int}", Name = "GetUsuario")]
         public IActionResult GetUsuario(int usuarioId)
         {
+            var permiso = _usuarioRepository.GetUsuarioPermisos(UsuarioAutenticado(), 1);
+            if (permiso == null)
+            {
+                return Ok("Error al realizar la accion, contact con su superior");
+            }
+
+            if (permiso.Consultar == false)
+            {
+                return Ok("No puedes hacer esta accion");
+            }
+
             var itemUsuario = _usuarioRepository.GetUsuario(usuarioId);
 
             if (itemUsuario == null)
@@ -199,6 +223,17 @@ namespace BerakahOrdenes.Controllers
         [HttpPut("ActualizarUsuario")]
         public IActionResult ActualizarUsuario(UsuarioActualizarDto usuarioDto)
         {
+            var permiso = _usuarioRepository.GetUsuarioPermisos(UsuarioAutenticado(), 1);
+            if (permiso == null)
+            {
+                return Ok("Error al realizar la accion, contact con su superior");
+            }
+
+            if (permiso.Modificar == false)
+            {
+                return Ok("No puedes hacer esta accion");
+            }
+
             if (usuarioDto == null)
             {
                 return Ok("Un error a ocurruido");
@@ -320,23 +355,33 @@ namespace BerakahOrdenes.Controllers
         }
 
 
-        [HttpDelete("{usuarioId:int}", Name = "BorrarUsuario")]
-        public IActionResult BorrarUsuario(int usuarioId)
+        [HttpPut("BorrarUsuario")]
+        public IActionResult BorrarUsuario(UsuarioObtener usuarioId)
         {
-
-            if (!_usuarioRepository.ExisteUsuario(usuarioId))
+            var permiso = _usuarioRepository.GetUsuarioPermisos(UsuarioAutenticado(), 1);
+            if (permiso == null)
             {
-                return NotFound();
+                return Ok("Error al realizar la accion, contact con su superior");
             }
 
-            var usuario = _usuarioRepository.GetUsuario(usuarioId);
-
-            if (!_usuarioRepository.BorrarUsuario(usuario))
+            if (permiso.Eliminar == false)
             {
-                ModelState.AddModelError("", $"Algo salio mal borrando el registro{usuario.UsuarioNombre}");
-                return StatusCode(500, ModelState);
+                return Ok("No puedes hacer esta accion");
             }
-            return NoContent();
+
+            var usuario = _usuarioRepository.GetUsuario(usuarioId.UsuarioId);
+            if(usuario == null)
+            {
+                return Ok("El usuario ya no existe");
+            }
+            usuario.UsuarioEstado = false;
+
+            if (!_usuarioRepository.ActualizarUsuario(usuario))
+            {
+                return Ok("Algo salio mal, contacta con soporte tecnico");
+            }
+
+            return Ok(1);
         }
 
         [AllowAnonymous]
@@ -430,6 +475,7 @@ namespace BerakahOrdenes.Controllers
             }
 
             usuario.UsuarioCambioPass = false;
+            usuario.UsuarioEstado = true;
             usuario.UsuarioFechaCambioPass = DateTime.Now;
 
 

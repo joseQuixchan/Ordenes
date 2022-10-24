@@ -2,6 +2,7 @@
 using BerakahOrdenes.Modelos;
 using BerakahOrdenes.Modelos.Dtos;
 using BerakahOrdenes.Repository.IRepository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -11,16 +12,19 @@ using System.Text;
 
 namespace BerakahOrdenes.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ProveedorController : ControllerBase
     {
         private readonly IProveedorRepository _proveedorRepository;
+        private readonly IUsuarioRepository _usuarioRepository;
         private readonly IMapper _mapper;
         private readonly IConfiguration _config;
 
-        public ProveedorController(IProveedorRepository proveedorRepository, IMapper mapper, IConfiguration config)
+        public ProveedorController(IUsuarioRepository usuarioRepository, IProveedorRepository proveedorRepository, IMapper mapper, IConfiguration config)
         {
+            _usuarioRepository = usuarioRepository;
             _proveedorRepository = proveedorRepository;
             _mapper = mapper;
             _config = config;
@@ -30,6 +34,18 @@ namespace BerakahOrdenes.Controllers
         [HttpPost]
         public IActionResult CrearProveedor(ProveedorDto proveedorDto)
         {
+            var permiso = _usuarioRepository.GetUsuarioPermisos(UsuarioAutenticado(), 10);
+            if (permiso == null)
+            {
+                return Ok("Error al realizar la accion, contact con su superior");
+            }
+
+            if (permiso.Agregar == false)
+            {
+                return Ok("No puedes hacer esta accion");
+            }
+
+
             if (proveedorDto == null)
             {
                 return Ok("Todos los datos son requeridos");
@@ -54,6 +70,17 @@ namespace BerakahOrdenes.Controllers
         [HttpGet]
         public ActionResult GetProveedores()
         {
+            var permiso = _usuarioRepository.GetUsuarioPermisos(UsuarioAutenticado(), 10);
+            if (permiso == null)
+            {
+                return Ok("Error al realizar la accion, contact con su superior");
+            }
+
+            if (permiso.Consultar == false)
+            {
+                return Ok("No puedes hacer esta accion");
+            }
+
             var listaProveedores = _proveedorRepository.GetProveedores();
             var listaProveedoresDto = new List<ProveedorDto>();
 
@@ -67,6 +94,17 @@ namespace BerakahOrdenes.Controllers
         [HttpGet("{proveedorId:int}", Name = "GetProveedor")]
         public IActionResult GetProveedor(int proveedorId)
         {
+            var permiso = _usuarioRepository.GetUsuarioPermisos(UsuarioAutenticado(), 10);
+            if (permiso == null)
+            {
+                return Ok("Error al realizar la accion, contact con su superior");
+            }
+
+            if (permiso.Consultar == false)
+            {
+                return Ok("No puedes hacer esta accion");
+            }
+
             var itemProveedor = _proveedorRepository.GetProveedor(proveedorId);
 
             if (itemProveedor == null)
@@ -82,6 +120,17 @@ namespace BerakahOrdenes.Controllers
         [HttpPut("{proveedorId:int}", Name = "ActualizarProveedor")]
         public IActionResult ActualizarProveedor(int proveedorId, [FromBody]ProveedorDto proveedorDto)
         {
+            var permiso = _usuarioRepository.GetUsuarioPermisos(UsuarioAutenticado(), 10);
+            if (permiso == null)
+            {
+                return Ok("Error al realizar la accion, contact con su superior");
+            }
+
+            if (permiso.Modificar == false)
+            {
+                return Ok("No puedes hacer esta accion");
+            }
+
             if (proveedorDto == null || proveedorId != proveedorDto.ProveedorId)
             {
                 return BadRequest(ModelState);
@@ -109,23 +158,42 @@ namespace BerakahOrdenes.Controllers
             return Ok(1);
         }
 
-        [HttpDelete("{proveedorId:int}", Name = "BorrarProveedor")]
-        public IActionResult BorrarProveedor(int proveedorId)
+        [HttpPut("BorrarProveedor")]
+        public IActionResult BorrarProveedor(ProveedorActualizarDto proveedorId)
         {
-
-            if (!_proveedorRepository.ExisteProveedor(proveedorId))
+            var permiso = _usuarioRepository.GetUsuarioPermisos(UsuarioAutenticado(), 10);
+            if (permiso == null)
             {
-                return NotFound();
+                return Ok("Error al realizar la accion, contact con su superior");
             }
 
-            var proveedor = _proveedorRepository.GetProveedor(proveedorId);
+            if (permiso.Eliminar == false)
+            {
+                return Ok("No puedes hacer esta accion");
+            }
 
-            if (!_proveedorRepository.BorrarProveedor(proveedor))
+            var proveedor = _proveedorRepository.GetProveedor(proveedorId.ProveedorId);
+
+            if(proveedor == null || proveedor.ProveedorEstado == false)
+            {
+                Ok("El proveedor no exise");
+            }
+
+            proveedor.ProveedorEstado = false;
+
+            if (!_proveedorRepository.ActualizarProveedor(proveedor))
             {
                 ModelState.AddModelError("", $"Algo salio mal borrando el registro");
-                return StatusCode(500, ModelState);
+                return Ok(ModelState);
             }
-            return NoContent();
+            return Ok(1);
+        }
+        private int UsuarioAutenticado()
+        {
+            var claims = User.Claims.ToList();
+            var usuario = claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+            int usuarioId = Int32.Parse(usuario);
+            return usuarioId;
         }
     }
 }

@@ -18,7 +18,7 @@ function ObtenerProveedores(){
           "</td><td>" + data.proveedorNit +
           "</td><td>" + data.proveedorDireccion +
           "</td><td><button type='button' class='btn btn-primary m-0' onClick='ObtenerDatosProveedor("+ data.proveedorId +")' data-toggle='modal' data-target='#ModalActualizarUsuario'><i class='fa fad fa-edit'></i></button>" +
-          "</td><td><button type='button' class='btn btn-danger m-0'><i class='fa fad fa-ban'></i></button></tr></tbody>";
+          "</td><td><button type='button' class='btn btn-danger m-0' onClick='EliminarProveedor("+ data.proveedorId +")'><i class='fa fad fa-ban'></i></button></tr></tbody>";
           $(fila).appendTo("#tablaProveedores");
       });
     });
@@ -30,7 +30,22 @@ function ObtenerDatosProveedor(proveedorId){
 
 
 function AgregarProveedor(){
-  var settings = {
+  if($("#ProveedorNombre").val() == ""){
+    Swal.fire({
+      icon: 'error',
+      title: 'EL nombre es requerido',
+      showConfirmButton: false,
+      timer: 2000
+    })
+  }else if ($("#ProveedorTelefono").val() == ""){
+    Swal.fire({
+      icon: 'error',
+      title: 'EL número es requerido',
+      showConfirmButton: false,
+      timer: 2000
+    })
+  }else{
+    var settings = {
       "url": UrlApi  + "Proveedor",
       "method": "POST",  
       "timeout": 0,
@@ -68,6 +83,8 @@ function AgregarProveedor(){
             })
         }
     }); 
+  }
+  
 }
 
 function ObtenerProveedor(ProveedorId){
@@ -103,7 +120,22 @@ function ObtenerProveedor(ProveedorId){
 }
 
 function ActualizarProveedor(){
-  var settings = {
+  if($("#ProveedorNombreA").val() == ""){
+    Swal.fire({
+      icon: 'error',
+      title: 'EL nombre es requerido',
+      showConfirmButton: false,
+      timer: 2000
+    })
+  }else if ($("#ProveedorTelefonoA").val() == ""){
+    Swal.fire({
+      icon: 'error',
+      title: 'EL número es requerido',
+      showConfirmButton: false,
+      timer: 2000
+    })
+  }else{
+    var settings = {
       "url": UrlApi  + "Proveedor/" + $("#ProveedorId").val(),
       "method": "Put",  
       "timeout": 0,
@@ -123,10 +155,10 @@ function ActualizarProveedor(){
     };
     
     $.ajax(settings).done(function (response) {
-        if(response>0){
+        if(response == 1){
           Swal.fire({
             icon: 'success',
-            title: 'Usuario Actualizado',
+            title: 'Proveedor Actualizado',
             showConfirmButton: false,
             timer: 2000
             })
@@ -141,8 +173,43 @@ function ActualizarProveedor(){
             })
         }
     }); 
+  }
+  
 }
 
+function EliminarProveedor(proveedorId){
+  var settings = {
+    "url": UrlApi + "Proveedor/BorrarProveedor",
+    "method": "Put",
+    "timeout": 0,
+    "headers": {
+      "Authorization": "Bearer " + token.token,
+      "Content-Type": "application/json"
+    },
+    "data": JSON.stringify({
+      proveedorId: proveedorId
+  }),
+  };
+
+  $.ajax(settings).done(function (response) {
+    if(response == 1){
+      Swal.fire({
+        title: 'Proveedor eliminado',
+        showConfirmButton: false,
+        timer: 2000
+        })
+        LimpiarTabla();
+        ObtenerProveedores();
+    }else{
+      Swal.fire({
+        icon: 'error',
+        title: response,
+        showConfirmButton: false,
+        timer: 2000
+        })
+    }
+  });
+}
 
 function LimpiarFormulario(){
   $("#ProveedorNombre").val("");

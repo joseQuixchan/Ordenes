@@ -2,6 +2,7 @@
 using BerakahOrdenes.Modelos;
 using BerakahOrdenes.Modelos.Dtos;
 using BerakahOrdenes.Repository.IRepository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -11,16 +12,19 @@ using System.Text;
 
 namespace BerakahOrdenes.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ProductoController : ControllerBase
     {
         private readonly IProductoRepository _productoRepository;
+        private readonly IUsuarioRepository _usuarioRepository;
         private readonly IMapper _mapper;
         private readonly IConfiguration _config;
 
-        public ProductoController(IProductoRepository productoRepository, IMapper mapper, IConfiguration config)
+        public ProductoController(IUsuarioRepository usuarioRepository, IProductoRepository productoRepository, IMapper mapper, IConfiguration config)
         {
+            _usuarioRepository = usuarioRepository;
             _productoRepository = productoRepository;
             _mapper = mapper;
             _config = config;
@@ -30,6 +34,17 @@ namespace BerakahOrdenes.Controllers
         [HttpPost]
         public IActionResult CrearProducto(ProductoDto productoDto)
         {
+            var permiso = _usuarioRepository.GetUsuarioPermisos(UsuarioAutenticado(), 11);
+            if (permiso == null)
+            {
+                return Ok("Error al realizar la accion, contact con su superior");
+            }
+
+            if (permiso.Agregar == false)
+            {
+                return Ok("No puedes hacer esta accion");
+            }
+
             if (productoDto == null)
             {
                 return Ok("Todos los datos son requeridos");
@@ -54,6 +69,17 @@ namespace BerakahOrdenes.Controllers
         [HttpGet]
         public ActionResult GetProductos()
         {
+            var permiso = _usuarioRepository.GetUsuarioPermisos(UsuarioAutenticado(), 11);
+            if (permiso == null)
+            {
+                return Ok("Error al realizar la accion, contact con su superior");
+            }
+
+            if (permiso.Consultar == false)
+            {
+                return Ok("No puedes hacer esta accion");
+            }
+
             var listaProductos = _productoRepository.GetProductos();
             var listaProductosDto = new List<ProductoDto>();
 
@@ -67,6 +93,16 @@ namespace BerakahOrdenes.Controllers
         [HttpGet("{productoId:int}", Name = "GetProducto")]
         public IActionResult GetProducto(int productoId)
         {
+            var permiso = _usuarioRepository.GetUsuarioPermisos(UsuarioAutenticado(), 11);
+            if (permiso == null)
+            {
+                return Ok("Error al realizar la accion, contact con su superior");
+            }
+
+            if (permiso.Consultar == false)
+            {
+                return Ok("No puedes hacer esta accion");
+            }
             var itemProducto = _productoRepository.GetProducto(productoId);
 
             if (itemProducto == null)
@@ -82,6 +118,17 @@ namespace BerakahOrdenes.Controllers
         [HttpPut("{productoId:int}", Name = "ActualizarProducto")]
         public IActionResult ActualizarProducto(int productoId, [FromBody] ProductoDto productoDto)
         {
+            var permiso = _usuarioRepository.GetUsuarioPermisos(UsuarioAutenticado(), 11);
+            if (permiso == null)
+            {
+                return Ok("Error al realizar la accion, contact con su superior");
+            }
+
+            if (permiso.Modificar == false)
+            {
+                return Ok("No puedes hacer esta accion");
+            }
+
             if (productoDto == null || productoId != productoDto.ProductoId)
             {
                 return BadRequest(ModelState);
@@ -108,23 +155,42 @@ namespace BerakahOrdenes.Controllers
             return Ok(1);
         }
 
-        [HttpDelete("{productoId:int}", Name = "BorrarProducto")]
-        public IActionResult BorrarProducto(int productoId)
+        [HttpPut("BorrarProducto")]
+        public IActionResult BorrarProducto(ProductoActualizarDto productoId)
         {
-
-            if (!_productoRepository.ExisteProducto(productoId))
+            var permiso = _usuarioRepository.GetUsuarioPermisos(UsuarioAutenticado(), 11);
+            if (permiso == null)
             {
-                return NotFound();
+                return Ok("Error al realizar la accion, contact con su superior");
             }
 
-            var proveedor = _productoRepository.GetProducto(productoId);
+            if (permiso.Eliminar == false)
+            {
+                return Ok("No puedes hacer esta accion");
+            }
 
-            if (!_productoRepository.BorrarProducto(proveedor))
+            var producto = _productoRepository.GetProducto(productoId.ProductoId);
+            if(producto == null || producto.ProductoEstado == false)
+            {
+                Ok("El proveedor no existe");
+            }
+
+            producto.ProductoEstado = false;
+
+            if (!_productoRepository.BorrarProducto(producto))
             {
                 ModelState.AddModelError("", $"Algo salio mal borrando el registro");
-                return StatusCode(500, ModelState);
+                return Ok(ModelState);
             }
-            return NoContent();
+            return Ok(1);
+        }
+
+        private int UsuarioAutenticado()
+        {
+            var claims = User.Claims.ToList();
+            var usuario = claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+            int usuarioId = Int32.Parse(usuario);
+            return usuarioId;
         }
     }
 }

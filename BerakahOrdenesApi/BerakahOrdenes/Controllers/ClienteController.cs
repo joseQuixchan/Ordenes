@@ -2,6 +2,7 @@
 using BerakahOrdenes.Modelos;
 using BerakahOrdenes.Modelos.Dtos;
 using BerakahOrdenes.Repository.IRepository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -11,16 +12,19 @@ using System.Text;
 
 namespace BerakahOrdenes.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ClienteController : ControllerBase
     {
         private readonly IClienteRepository _clienteRepository;
+        private readonly IUsuarioRepository _usuarioRepository;
         private readonly IMapper _mapper;
         private readonly IConfiguration _config;
 
-        public ClienteController(IClienteRepository clienteRepository, IMapper mapper, IConfiguration config)
+        public ClienteController(IUsuarioRepository usuarioRepository, IClienteRepository clienteRepository, IMapper mapper, IConfiguration config)
         {
+            _usuarioRepository = usuarioRepository;
             _clienteRepository = clienteRepository;
             _mapper = mapper;
             _config = config;
@@ -30,6 +34,17 @@ namespace BerakahOrdenes.Controllers
         [HttpPost]
         public IActionResult CrearCliente(ClienteDto clienteDto)
         {
+            var permiso = _usuarioRepository.GetUsuarioPermisos(UsuarioAutenticado(), 7);
+            if (permiso == null)
+            {
+                return Ok("Error al realizar la accion, contact con su superior");
+            }
+
+            if (permiso.Agregar == false)
+            {
+                return Ok("No puedes hacer esta accion");
+            }
+
             if (clienteDto == null)
             {
                 return Ok("Todos los datos son requeridos");
@@ -54,6 +69,17 @@ namespace BerakahOrdenes.Controllers
         [HttpGet]
         public ActionResult GetClientes()
         {
+            var permiso = _usuarioRepository.GetUsuarioPermisos(UsuarioAutenticado(), 7);
+            if (permiso == null)
+            {
+                return Ok("Error al realizar la accion, contact con su superior");
+            }
+
+            if (permiso.Consultar == false)
+            {
+                return Ok("No puedes hacer esta accion");
+            }
+
             var listaclientes = _clienteRepository.GetClientes();
             var listaClientesDto = new List<ClienteDto>();
 
@@ -67,6 +93,17 @@ namespace BerakahOrdenes.Controllers
         [HttpGet("{clienteId:int}", Name = "GetCliente")]
         public IActionResult GetCliente(int clienteId)
         {
+            var permiso = _usuarioRepository.GetUsuarioPermisos(UsuarioAutenticado(), 7);
+            if (permiso == null)
+            {
+                return Ok("Error al realizar la accion, contact con su superior");
+            }
+
+            if (permiso.Consultar == false)
+            {
+                return Ok("No puedes hacer esta accion");
+            }
+
             var itemCliente = _clienteRepository.GetCliente(clienteId);
 
             if (itemCliente == null)
@@ -82,9 +119,20 @@ namespace BerakahOrdenes.Controllers
         [HttpPut("{clienteId:int}", Name = "ActualizarCliente")]
         public IActionResult ActualizarCliente(int clienteId, [FromBody]ClienteDto clienteDto)
         {
+            var permiso = _usuarioRepository.GetUsuarioPermisos(UsuarioAutenticado(), 7);
+            if (permiso == null)
+            {
+                return Ok("Error al realizar la accion, contact con su superior");
+            }
+
+            if (permiso.Modificar == false)
+            {
+                return Ok("No puedes hacer esta accion");
+            }
+
             if (clienteDto == null || clienteId != clienteDto.ClienteId)
             {
-                return BadRequest(ModelState);
+                return Ok("Todos los campos son necesarios");
             }
 
             var cliente = _clienteRepository.GetCliente(clienteDto.ClienteId);
@@ -109,23 +157,44 @@ namespace BerakahOrdenes.Controllers
             return Ok(1);
         }
 
-        [HttpDelete("{clienteId:int}", Name = "BorrarCliente")]
-        public IActionResult BorrarCliente(int clienteId)
+        [HttpPut("BorrarCliente")]
+        public IActionResult BorrarCliente(ClienteActualizarDto clienteId)
         {
-
-            if (!_clienteRepository.ExisteCliente(clienteId))
+            var permiso = _usuarioRepository.GetUsuarioPermisos(UsuarioAutenticado(), 7);
+            if (permiso == null)
             {
-                return NotFound();
+                return Ok("Error al realizar la accion, contact con su superior");
             }
 
-            var cliente = _clienteRepository.GetCliente(clienteId);
+            if (permiso.Eliminar == false)
+            {
+                return Ok("No puedes hacer esta accion");
+            }
 
-            if (!_clienteRepository.BorrarCliente(cliente))
+            var cliente = _clienteRepository.GetCliente(clienteId.ClienteId);
+
+            if(cliente == null || cliente.ClienteEstado == false)
+            {
+                return Ok("El cliene no existe");
+            }
+
+            cliente.ClienteEstado = false;
+
+            if (!_clienteRepository.ActualizarCliente(cliente))
             {
                 ModelState.AddModelError("", $"Algo salio mal borrando el registro{cliente.ClienteNombre}");
-                return StatusCode(500, ModelState);
+                return Ok(ModelState);
             }
-            return NoContent();
+
+            return Ok(1);
+        }
+
+        private int UsuarioAutenticado()
+        {
+            var claims = User.Claims.ToList();
+            var usuario = claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+            int usuarioId = Int32.Parse(usuario);
+            return usuarioId;
         }
     }
 }

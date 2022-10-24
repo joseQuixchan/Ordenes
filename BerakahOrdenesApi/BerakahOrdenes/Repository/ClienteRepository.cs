@@ -55,7 +55,7 @@ namespace BerakahOrdenes.Repository
 
         public ICollection<Cliente> GetClientes()
         {
-            return _db.Cliente.OrderBy(c => c.ClienteNombre).ToList();
+            return _db.Cliente.OrderBy(c => c.ClienteNombre).Where(w => w.ClienteEstado == true).ToList();
         }
 
         public bool Guardar()

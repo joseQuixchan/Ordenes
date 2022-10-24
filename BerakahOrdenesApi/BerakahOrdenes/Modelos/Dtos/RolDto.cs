@@ -13,4 +13,9 @@ namespace BerakahOrdenes.Modelos.Dtos
         public bool RolEstado { get; set; }
         public DateTime RolFechaCreacion { get; set; }
     }
+
+    public class RolActualizarDto
+    {
+        public int RolId { get; set; }
+    }
 }

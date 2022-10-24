@@ -14,6 +14,7 @@ namespace BerakahOrdenes.Repository.IRepository
         Usuario ExisteUserName2(string userName);
         bool ActualizarUsuario(Usuario usuario);
         bool BorrarUsuario(Usuario usuario);
+        RolMenu GetUsuarioPermisos(int id, int menuId);
         bool ActualizarFechaSesionUsuario(Usuario usuario);
         public ICollection<Menu> ObtenerMenusUsuario(int idUsuario, int? idRol);
         bool ActualizarPassword(Usuario usuario, string password);

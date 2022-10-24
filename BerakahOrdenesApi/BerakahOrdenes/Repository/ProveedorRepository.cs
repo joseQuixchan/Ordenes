@@ -55,7 +55,7 @@ namespace BerakahOrdenes.Repository
 
         public ICollection<Proveedor> GetProveedores()
         {
-            return _db.Proveedor.OrderBy(c => c.ProveedorNombre).ToList();
+            return _db.Proveedor.OrderBy(c => c.ProveedorNombre).Where(w => w.ProveedorEstado == true).ToList();
         }
 
         public bool Guardar()

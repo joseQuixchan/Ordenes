@@ -19,7 +19,7 @@ function ObtenerClientes(){
           "</td><td>" + data.clienteNit +
           "</td><td>" + data.clienteDireccion +
           "</td><td><button type='button' class='btn btn-primary m-0' onClick='ObtenerDatosCliente("+ data.clienteId +")' data-toggle='modal' data-target='#ModalActualizarUsuario'><i class='fa fad fa-edit'></i></button>" +
-          "</td><td><button type='button' class='btn btn-danger m-0'><i class='fa fad fa-ban'></i></button></tr></tbody>";
+          "</td><td><button type='button' class='btn btn-danger m-0' onClick='EliminarCliente("+ data.clienteId +")'><i class='fa fad fa-ban'></i></button></tr></tbody>";
           $(fila).appendTo("#tablaClientes");
       });
     });
@@ -31,7 +31,8 @@ function ObtenerDatosCliente(cleinteId){
 
 
 function AgregarCliente(){
-  var settings = {
+  if($("#ClienteNombre").val() != ""){
+    var settings = {
       "url": UrlApi  + "Cliente",
       "method": "POST",  
       "timeout": 0,
@@ -50,7 +51,6 @@ function AgregarCliente(){
       }),
       
     };
-    console.log("aqui");
     $.ajax(settings).done(function (response) {
         if(response>0){
           Swal.fire({
@@ -71,6 +71,14 @@ function AgregarCliente(){
             })
         }
     }); 
+  }else{
+    Swal.fire({
+      icon: 'error',
+      title: 'El nombre es requerido',
+      showConfirmButton: false,
+      timer: 2000
+      })
+  }
 }
 
 function ObtenerCliente(ClienteId){
@@ -97,7 +105,8 @@ function ObtenerCliente(ClienteId){
 }
 
 function ActualizarCliente(){
-  var settings = {
+  if($("#ClienteNombreA").val() != ""){
+    var settings = {
       "url": UrlApi  + "Cliente/" + $("#ClienteId").val(),
       "method": "Put",  
       "timeout": 0,
@@ -137,8 +146,50 @@ function ActualizarCliente(){
             })
         }
     }); 
+  }else{
+    Swal.fire({
+      icon: 'error',
+      title: 'El nombre es requerido',
+      showConfirmButton: false,
+      timer: 2000
+      })
+  }
+  
 }
 
+function EliminarCliente(clienteId){
+  var settings = {
+    "url": UrlApi + "Cliente/BorrarCliente",
+    "method": "Put",
+    "timeout": 0,
+    "headers": {
+      "Authorization": "Bearer " + token.token,
+      "Content-Type": "application/json"
+    },
+    "data": JSON.stringify({
+      clienteId: clienteId
+  }),
+  };
+
+  $.ajax(settings).done(function (response) {
+    if(response == 1){
+      Swal.fire({
+        title: 'Cliene eliminado',
+        showConfirmButton: false,
+        timer: 2000
+        })
+        LimpiarTabala();
+        ObtenerClientes();
+    }else{
+      Swal.fire({
+        icon: 'error',
+        title: response,
+        showConfirmButton: false,
+        timer: 2000
+        })
+    }
+  });
+}
 
 function LimpiarFormulario(){
   $("#UsuarioUsuario").val("");

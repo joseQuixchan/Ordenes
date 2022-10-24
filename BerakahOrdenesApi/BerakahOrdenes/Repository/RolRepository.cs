@@ -48,7 +48,7 @@ namespace BerakahOrdenes.Repository
 
         public ICollection<Rol> GetRoles()
         {
-            return _db.Rol.OrderBy(c => c.RolNombre).ToList();
+            return _db.Rol.OrderBy(c => c.RolNombre).Where(w => w.RolEstado == true).ToList();
         }
 
         public bool Guardar()

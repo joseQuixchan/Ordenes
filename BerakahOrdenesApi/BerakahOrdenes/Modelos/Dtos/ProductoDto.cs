@@ -14,4 +14,9 @@ namespace BerakahOrdenes.Modelos.Dtos
         public bool ProductoEstado { get; set; }
         public DateTime ProductoFechaCreacion { get; set; }
     }
+
+    public class ProductoActualizarDto
+    {
+        public int ProductoId { get; set; }
+    }
 }

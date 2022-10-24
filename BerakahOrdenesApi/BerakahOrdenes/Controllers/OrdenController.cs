@@ -1,33 +1,30 @@
 ﻿using AutoMapper;
 using BerakahOrdenes.Modelos;
-
 using BerakahOrdenes.Modelos.Dtos;
 using BerakahOrdenes.Repository.IRepository;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using Rotativa.AspNetCore;
-using System.Globalization;
-using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Text;
 using Wkhtmltopdf.NetCore;
 
 namespace BerakahOrdenes.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class OrdenController : ControllerBase
     {
         private readonly IOrdenRepository _ordenRepository;
+        private readonly IUsuarioRepository _usuarioRepository;
         private readonly IOrdenDetalleRepository _ordenDetalleRepository;
         private readonly IMapper _mapper;
         private readonly IConfiguration _config;
         private readonly IGeneratePdf _pdf;
 
-        public OrdenController(IGeneratePdf pdf, IOrdenRepository ordenRepository, IOrdenDetalleRepository ordenDetalleRepository, IMapper mapper, IConfiguration config)
+        public OrdenController(IUsuarioRepository usuarioRepository, IGeneratePdf pdf, IOrdenRepository ordenRepository, IOrdenDetalleRepository ordenDetalleRepository, IMapper mapper, IConfiguration config)
         {
             _pdf = pdf;
+            _usuarioRepository = usuarioRepository;
             _ordenRepository = ordenRepository;
             _ordenDetalleRepository = ordenDetalleRepository;
             _mapper = mapper;
@@ -38,6 +35,17 @@ namespace BerakahOrdenes.Controllers
         [HttpPost]
         public IActionResult CrearOrden(OrdenDto ordenDto)
         {
+            var permiso = _usuarioRepository.GetUsuarioPermisos(UsuarioAutenticado(), 2);
+            if (permiso == null)
+            {
+                return Ok("Error al realizar la accion, contact con su superior");
+            }
+
+            if (permiso.Agregar == false)
+            {
+                return Ok("No puedes hacer esta accion");
+            }
+
             if (ordenDto == null)
             {
                 return BadRequest(ModelState);
@@ -103,10 +111,18 @@ namespace BerakahOrdenes.Controllers
         [HttpGet]
         public ActionResult GetOrden()
         {
+            var permiso = _usuarioRepository.GetUsuarioPermisos(UsuarioAutenticado(), 2);
+            if (permiso == null)
+            {
+                return Ok("Error al realizar la accion, contact con su superior");
+            }
+
+            if (permiso.Consultar == false)
+            {
+                return Ok("No puedes hacer esta accion");
+            }
             var listaOrdenes = _ordenRepository.GetOrdenes();
             var listaOrdenesDto = new List<OrdenDto>();
-
-
 
             foreach (var lista in listaOrdenes)
             {
@@ -117,10 +133,13 @@ namespace BerakahOrdenes.Controllers
             return Ok(listaOrdenesDto);
         }
 
+        [AllowAnonymous]
         [HttpGet("GenerarPdf")]
         public async Task<IActionResult> GetOrdenPDF(int ordenId)
         {
-            if(ordenId < 0)
+           
+
+            if (ordenId < 0)
             {
                 return Ok("El numero de orden es necesario");
             }
@@ -142,6 +161,17 @@ namespace BerakahOrdenes.Controllers
         [HttpGet("OrdenDetalles")]
         public ActionResult GetOrdenDetalle(int ordenId)
         {
+            var permiso = _usuarioRepository.GetUsuarioPermisos(UsuarioAutenticado(), 2);
+            if (permiso == null)
+            {
+                return Ok("Error al realizar la accion, contact con su superior");
+            }
+
+            if (permiso.Consultar == false)
+            {
+                return Ok("No puedes hacer esta accion");
+            }
+
             if (ordenId < 0)
             {
                 return Ok("El numero de orden es necesario");
@@ -162,6 +192,17 @@ namespace BerakahOrdenes.Controllers
         [HttpGet("{ordenId:int}", Name = "GetOrden")]
         public IActionResult GetOrden(int ordenId)
         {
+            var permiso = _usuarioRepository.GetUsuarioPermisos(UsuarioAutenticado(), 2);
+            if (permiso == null)
+            {
+                return Ok("Error al realizar la accion, contact con su superior");
+            }
+
+            if (permiso.Consultar == false)
+            {
+                return Ok("No puedes hacer esta accion");
+            }
+
             var itemOrden = _ordenRepository.GetOrden(ordenId);
 
             if (itemOrden == null)
@@ -171,24 +212,6 @@ namespace BerakahOrdenes.Controllers
 
             var itemOrdenDto = _mapper.Map<OrdenDto>(itemOrden);
             return Ok(itemOrdenDto);
-        }
-
-        [HttpPatch("{ordenId:int}", Name = "ActualizarOrden")]
-        public IActionResult ActualizarOrden(int ordenId, [FromBody] OrdenDto ordenDto)
-        {
-            if (ordenDto == null || ordenId != ordenDto.OrdenId)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var orden = _mapper.Map<Orden>(ordenDto);
-
-            if (!_ordenRepository.ActualizarOrden(orden))
-            {
-                ModelState.AddModelError("", $"Algo salio mal actualizando el registro");
-                return StatusCode(500, ModelState);
-            }
-            return NoContent();
         }
 
         [HttpDelete("{ordenId:int}", Name = "BorrarOrden")]
@@ -208,6 +231,14 @@ namespace BerakahOrdenes.Controllers
                 return StatusCode(500, ModelState);
             }
             return NoContent();
+        }
+
+        private int UsuarioAutenticado()
+        {
+            var claims = User.Claims.ToList();
+            var usuario = claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+            int usuarioId = Int32.Parse(usuario);
+            return usuarioId;
         }
     }
 }

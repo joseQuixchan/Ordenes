@@ -55,7 +55,7 @@ namespace BerakahOrdenes.Repository
 
         public ICollection<Producto> GetProductos()
         {
-            return _db.Producto.OrderBy(c => c.ProductoNombre).ToList();
+            return _db.Producto.OrderBy(c => c.ProductoNombre).Where(w => w.ProductoEstado == true).ToList();
         }
 
         public bool Guardar()

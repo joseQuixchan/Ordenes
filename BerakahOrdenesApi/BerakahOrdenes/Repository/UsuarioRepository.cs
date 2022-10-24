@@ -121,9 +121,18 @@ namespace BerakahOrdenes.Repository
             return _db.Usuario.Include(i => i.Rol).FirstOrDefault(c => c.UsuarioId == id);
         }
 
+        public RolMenu GetUsuarioPermisos(int id, int menuId)
+        {
+            var rol = _db.Usuario.Include(i => i.Rol).Where(c => c.UsuarioId == id).Select(s => s.Rol).FirstOrDefault();
+
+            var permisos = _db.RolMenu.Where(w => w.RolId == rol.RolId && w.MenuId == menuId && w.RolMenuEstado == true).FirstOrDefault();
+
+            return permisos;
+        }
+
         public ICollection<Usuario> GetUsuarios()
         {
-            return _db.Usuario.Include(i => i.Rol).OrderBy(c => c.UsuarioNombre).ToList();
+            return _db.Usuario.Include(i => i.Rol).OrderBy(c => c.UsuarioNombre).Where(w => w.UsuarioEstado == true).ToList();
         }
 
         public bool ActualizarFechaSesionUsuario(Usuario usuario)

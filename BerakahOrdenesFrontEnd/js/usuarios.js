@@ -24,7 +24,7 @@ function ObtenerUsuarios(){
           "</td><td>" + data.usuarioTelefono +
           "</td><td>" + data.rol.rolNombre +
           "</td><td><button type='button' class='btn btn-primary m-0' onClick='ObtenerDatosUsuario("+ data.usuarioId +") , Obtenerroles(1)' data-toggle='modal' data-target='#ModalActualizarUsuario'><i class='fa fad fa-edit'></i></button>" +
-          "</td><td><button type='button' class='btn btn-danger m-0'><i class='fa fad fa-ban'></i></button></tr></tbody>";
+          "</td><td><button type='button' class='btn btn-danger m-0' onClick='EliminarUsuario("+ data.usuarioId +")'><i class='fa fad fa-ban'></i></button></tr></tbody>";
           $(fila).appendTo("#tablaUsuarios");
       });
     });
@@ -36,7 +36,9 @@ function ObtenerDatosUsuario(UsuarioId){
 
 
 function AgregarUsuario(){
-  var settings = {
+  if($("#UsuarioUsuario").val() != "" || $("#UsuarioPass").val() != "" || $("#UsuarioNombre").val() != ""
+  || $("#UsuarioApellido").val() !="" || $("#UsuarioCorreo").val() != "" || $("#UsuarioTelefono").val() != ""){
+    var settings = {
       "url": UrlApi  + "Usuario/Registro",
       "method": "POST",  
       "timeout": 0,
@@ -57,8 +59,8 @@ function AgregarUsuario(){
       
     };
     
-    $.ajax(settings).done(function (response) {
-        if(response>0){
+    $.ajax(settings).done(function (response) {      
+        if(response==1){
           Swal.fire({
             icon: 'success',
             title: 'Usuario Agregado',
@@ -74,9 +76,17 @@ function AgregarUsuario(){
             title: response,
             showConfirmButton: false,
             timer: 2000
-            })
+          })
         }
     }); 
+  }else{
+    Swal.fire({
+      icon: 'error',
+      title: 'Todos los datos son requeridos',
+      showConfirmButton: false,
+      timer: 2000
+    })
+  }
 }
 
 function ObtenerUsuario(UsuarioId){
@@ -175,6 +185,39 @@ function ActualizarUsuario(){
     }); 
 }
 
+function EliminarUsuario(usuarioId){
+  var settings = {
+    "url": UrlApi + "Usuario/BorrarUsuario",
+    "method": "Put",
+    "timeout": 0,
+    "headers": {
+      "Authorization": "Bearer " + token.token,
+      "Content-Type": "application/json"
+    },
+    "data": JSON.stringify({
+      UsuarioId: usuarioId
+  }),
+  };
+
+  $.ajax(settings).done(function (response) {
+    if(response == 1){
+      Swal.fire({
+        title: 'Usuario eliminado',
+        showConfirmButton: false,
+        timer: 2000
+        })
+        LimpiarTabla();
+        ObtenerUsuarios();
+    }else{
+      Swal.fire({
+        icon: 'error',
+        title: response,
+        showConfirmButton: false,
+        timer: 2000
+        })
+    }
+  });
+}
 
 function LimpiarFormulario(){
   $("#UsuarioUsuario").val("");

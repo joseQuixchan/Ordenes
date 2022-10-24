@@ -19,7 +19,7 @@ function ObtenerProductos(){
           "</td><td>" + data.productoDescripcion +
           "</td><td>" + "Q." + data.productoPrecio +
           "</td><td><button type='button' class='btn btn-primary m-0' onClick='ObtenerDatosProveedor("+ data.productoId +")' data-toggle='modal' data-target='#ModalActualizarUsuario'><i class='fa fad fa-edit'></i></button>" +
-          "</td><td><button type='button' class='btn btn-danger m-0'><i class='fa fad fa-ban'></i></button></tr></tbody>";
+          "</td><td><button type='button' class='btn btn-danger m-0' onClick='EliminarProducto("+ data.productoId +")'><i class='fa fad fa-ban'></i></button></tr></tbody>";
           $(fila).appendTo("#tablaProductos");
       });
     });
@@ -31,7 +31,15 @@ function ObtenerDatosProveedor(productoId){
 
 
 function AgregarProducto(){
-  var settings = {
+  if($("#ProductoNombre").val() == "" ||  $("#ProductoDescripcion").val() == "" || $("#ProductoPrecio").val() == ""){
+    Swal.fire({
+      icon: 'error',
+      title: 'Todos los campos son requeridos',
+      showConfirmButton: false,
+      timer: 2000
+      })
+  }else{
+    var settings = {
       "url": UrlApi  + "Producto",
       "method": "POST",  
       "timeout": 0,
@@ -67,6 +75,8 @@ function AgregarProducto(){
             })
         }
     }); 
+  }
+  
 }
 
 function ObtenerProducto(ProductoId){
@@ -99,7 +109,15 @@ function ObtenerProducto(ProductoId){
 }
 
 function ActualizarProducto(){
-  var settings = {
+  if($("#ProductoNombreA").val() == "" ||  $("#ProductoDescripcionA").val() == "" || $("#ProductoPrecioA").val() == ""){
+    Swal.fire({
+      icon: 'error',
+      title: 'Todos los campos son requeridos',
+      showConfirmButton: false,
+      timer: 2000
+      })
+  }else{
+    var settings = {
       "url": UrlApi  + "Producto/" + $("#ProductoId").val(),
       "method": "Put",  
       "timeout": 0,
@@ -135,8 +153,43 @@ function ActualizarProducto(){
             })
         }
     }); 
+  }
+  
 }
 
+function EliminarProducto(productoId){
+  var settings = {
+    "url": UrlApi + "Producto/BorrarProducto",
+    "method": "Put",
+    "timeout": 0,
+    "headers": {
+      "Authorization": "Bearer " + token.token,
+      "Content-Type": "application/json"
+    },
+    "data": JSON.stringify({
+      productoId: productoId
+  }),
+  };
+
+  $.ajax(settings).done(function (response) {
+    if(response == 1){
+      Swal.fire({
+        title: 'Producto eliminado',
+        showConfirmButton: false,
+        timer: 2000
+        })
+        LimpiarTabla();
+        ObtenerProductos();
+    }else{
+      Swal.fire({
+        icon: 'error',
+        title: response,
+        showConfirmButton: false,
+        timer: 2000
+        })
+    }
+  });
+}
 
 function LimpiarFormulario(){
   $("#ProveedorNombre").val("");

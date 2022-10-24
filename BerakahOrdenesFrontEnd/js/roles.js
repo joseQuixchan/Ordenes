@@ -15,7 +15,7 @@ function ObtenerRoles(){
           "</td><td>" + data.rolDescripcion +
           "</td><td><button type='button' class='btn btn-primary m-0' onClick='ObtenerDatosRol("+ data.rolId +")' data-toggle='modal' data-target='#ModalActualizarUsuario'><i class='fa fad fa-edit'></i></button>" +
           "</td><td><button type='button' class='btn btn-primary m-0' onClick='ObtenerDatosRol("+ data.rolId +"); ObtenerMenusRol("+ data.rolId +"); ObtenerMenuss();' data-toggle='modal' data-target='#ModalMenus'><i class='fa fad fa-list'></i></button>" +
-          "</td><td><button type='button' class='btn btn-danger m-0'><i class='fa fad fa-ban'></i></button></tr></tbody>";
+          "</td><td><button type='button' class='btn btn-danger m-0' onClick='EliminarRol("+ data.rolId +")'><i class='fa fad fa-ban'></i></button></tr></tbody>";
           $(fila).appendTo("#tablaRoles");
       });
     });
@@ -27,7 +27,15 @@ function ObtenerDatosRol(rolId){
 
 
 function AgregarRol(){
-  var settings = {
+  if($("#RolNombre").val() == "" || $("#RolDescripcion").val() == ""){
+    Swal.fire({
+      icon: 'error',
+      title: "EL nombre y descripccion son requeridos",
+      showConfirmButton: false,
+      timer: 2000
+      })
+  }else{
+    var settings = {
       "url": UrlApi  + "Rol",
       "method": "POST",  
       "timeout": 0,
@@ -62,6 +70,7 @@ function AgregarRol(){
             })
         }
     }); 
+  }
 }
 
 function ObtenerRol(RolId){
@@ -93,7 +102,15 @@ function ObtenerRol(RolId){
 }
 
 function ActualizarRol(){
-  var settings = {
+  if($("#RolNombre").val() == "" || $("#RolDescripcion").val() == ""){
+    Swal.fire({
+      icon: 'error',
+      title: "EL nombre y descripccion son requeridos",
+      showConfirmButton: false,
+      timer: 2000
+      })
+  }else{
+    var settings = {
       "url": UrlApi  + "Rol/" + $("#RolId").val(),
       "method": "Put",  
       "timeout": 0,
@@ -127,6 +144,8 @@ function ActualizarRol(){
             })
         }
     }); 
+  }
+ 
 }
 
 function ObtenerMenuss(){
@@ -291,6 +310,41 @@ function QuitarRolMenu(rolId, menuId){
             ObtenerMenusRol(rolId);
         }
     }); 
+}
+
+
+function EliminarRol(rolId){
+  var settings = {
+    "url": UrlApi + "Rol/BorrarRol",
+    "method": "Put",
+    "timeout": 0,
+    "headers": {
+      "Authorization": "Bearer " + token.token,
+      "Content-Type": "application/json"
+    },
+    "data": JSON.stringify({
+      rolId: rolId
+  }),
+  };
+
+  $.ajax(settings).done(function (response) {
+    if(response == 1){
+      Swal.fire({
+        title: 'Rol eliminado',
+        showConfirmButton: false,
+        timer: 2000
+        })
+        LimpiarTabla();
+        ObtenerRoles();
+    }else{
+      Swal.fire({
+        icon: 'error',
+        title: response,
+        showConfirmButton: false,
+        timer: 2000
+        })
+    }
+  });
 }
 
 function LimpiarFormulario(){

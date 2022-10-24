@@ -2,21 +2,25 @@
 using BerakahOrdenes.Modelos;
 using BerakahOrdenes.Modelos.Dtos;
 using BerakahOrdenes.Repository.IRepository;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace BerakahOrdenes.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class RolController : ControllerBase
     {
         private readonly IRolRepository _rolRepository;
+        private readonly IUsuarioRepository _usuarioRepository;
         private readonly IMapper _mapper;
         private readonly IConfiguration _config;
 
-        public RolController(IRolRepository rolRepository, IMapper mapper, IConfiguration config)
+        public RolController(IUsuarioRepository usuarioRepository, IRolRepository rolRepository, IMapper mapper, IConfiguration config)
         {
+            _usuarioRepository = usuarioRepository;
             _rolRepository = rolRepository;
             _mapper = mapper;
             _config = config;
@@ -26,6 +30,17 @@ namespace BerakahOrdenes.Controllers
         [HttpPost]
         public IActionResult CrearRol(RolDto rolDto)
         {
+            var permiso = _usuarioRepository.GetUsuarioPermisos(UsuarioAutenticado(), 13);
+            if (permiso == null)
+            {
+                return Ok("Error al realizar la accion, contact con su superior");
+            }
+
+            if (permiso.Agregar == false)
+            {
+                return Ok("No puedes hacer esta accion");
+            }
+
             if (rolDto == null)
             {
                 return BadRequest(ModelState);
@@ -47,6 +62,17 @@ namespace BerakahOrdenes.Controllers
         [HttpGet]
         public ActionResult GetRol()
         {
+            var permiso = _usuarioRepository.GetUsuarioPermisos(UsuarioAutenticado(), 13);
+            if (permiso == null)
+            {
+                return Ok("Error al realizar la accion, contact con su superior");
+            }
+
+            if (permiso.Consultar == false)
+            {
+                return Ok("No puedes hacer esta accion");
+            }
+
             var listaRoles = _rolRepository.GetRoles();
             var listaRolesDto = new List<RolDto>();
 
@@ -60,6 +86,17 @@ namespace BerakahOrdenes.Controllers
         [HttpGet("{rolId:int}", Name = "GetRol")]
         public IActionResult GetRol(int rolId)
         {
+            var permiso = _usuarioRepository.GetUsuarioPermisos(UsuarioAutenticado(), 13);
+            if (permiso == null)
+            {
+                return Ok("Error al realizar la accion, contact con su superior");
+            }
+
+            if (permiso.Consultar == false)
+            {
+                return Ok("No puedes hacer esta accion");
+            }
+
             var itemRol = _rolRepository.GetRol(rolId);
 
             if (itemRol == null)
@@ -74,6 +111,17 @@ namespace BerakahOrdenes.Controllers
         [HttpPut("{rolId:int}", Name = "ActualizarRol")]
         public IActionResult ActualizarRol(int rolId, [FromBody]RolDto rolDto)
         {
+            var permiso = _usuarioRepository.GetUsuarioPermisos(UsuarioAutenticado(), 13);
+            if (permiso == null)
+            {
+                return Ok("Error al realizar la accion, contact con su superior");
+            }
+
+            if (permiso.Modificar == false)
+            {
+                return Ok("No puedes hacer esta accion");
+            }
+
             if (rolDto == null || rolId != rolDto.RolId)
             {
                 return Ok(2);
@@ -96,23 +144,43 @@ namespace BerakahOrdenes.Controllers
             return Ok(1);
         }
 
-        [HttpDelete("{rolId:int}", Name = "BorrarRol")]
-        public IActionResult BorrarRol(int rolId)
+        [HttpPut("BorrarRol")]
+        public IActionResult BorrarRol(RolActualizarDto rolId)
         {
-
-            if (!_rolRepository.ExisteRol(rolId))
+            var permiso = _usuarioRepository.GetUsuarioPermisos(UsuarioAutenticado(), 13);
+            if (permiso == null)
             {
-                return NotFound();
+                return Ok("Error al realizar la accion, contact con su superior");
             }
 
-            var rol = _rolRepository.GetRol(rolId);
+            if (permiso.Eliminar == false)
+            {
+                return Ok("No puedes hacer esta accion");
+            }
+
+            var rol = _rolRepository.GetRol(rolId.RolId);
+
+            if(rol == null || rol.RolEstado == false)
+            {
+                Ok("El Rol no existe");
+            }
+
+            rol.RolEstado = false;
 
             if (!_rolRepository.BorrarRol(rol))
             {
                 ModelState.AddModelError("", $"Algo salio mal borrando el registro{rol.RolNombre}");
-                return StatusCode(500, ModelState);
+                return Ok(ModelState);
             }
-            return NoContent();
+            return Ok(1);
+        }
+
+        private int UsuarioAutenticado()
+        {
+            var claims = User.Claims.ToList();
+            var usuario = claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+            int usuarioId = Int32.Parse(usuario);
+            return usuarioId;
         }
     }
 }

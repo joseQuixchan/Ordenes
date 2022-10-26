@@ -104,7 +104,7 @@ namespace BerakahOrdenes.Controllers
             var permiso = _usuarioRepository.GetUsuarioPermisos(UsuarioAutenticado(), 1);
             if (permiso == null)
             {
-                return Ok("Error al realizar la accion, contact con su superior");
+                return Ok("Error al realizar la accion, contacta con su superior");
             }
 
             if (permiso.Agregar == false)
@@ -183,7 +183,7 @@ namespace BerakahOrdenes.Controllers
         [HttpGet]
         public ActionResult GetUsuarios()
         {
-            
+          
 
             var listaUsuarios = _usuarioRepository.GetUsuarios();
             var listaUsuariosDto = new List<UsuarioDto>();
@@ -201,7 +201,7 @@ namespace BerakahOrdenes.Controllers
             var permiso = _usuarioRepository.GetUsuarioPermisos(UsuarioAutenticado(), 1);
             if (permiso == null)
             {
-                return Ok("Error al realizar la accion, contact con su superior");
+                return Ok("Error al realizar la accion, contacta con su superior");
             }
 
             if (permiso.Consultar == false)
@@ -226,7 +226,7 @@ namespace BerakahOrdenes.Controllers
             var permiso = _usuarioRepository.GetUsuarioPermisos(UsuarioAutenticado(), 1);
             if (permiso == null)
             {
-                return Ok("Error al realizar la accion, contact con su superior");
+                return Ok("Error al realizar la accion, contacta con su superior");
             }
 
             if (permiso.Modificar == false)
@@ -361,7 +361,7 @@ namespace BerakahOrdenes.Controllers
             var permiso = _usuarioRepository.GetUsuarioPermisos(UsuarioAutenticado(), 1);
             if (permiso == null)
             {
-                return Ok("Error al realizar la accion, contact con su superior");
+                return Ok("Error al realizar la accion, contacta con su superior");
             }
 
             if (permiso.Eliminar == false)
@@ -567,7 +567,7 @@ namespace BerakahOrdenes.Controllers
             stCuerpoHTML += "<br/>";
             stCuerpoHTML += "Atentamente: Soporte de Berakah";
             stCuerpoHTML += "</p>";
-            stCuerpoHTML += "<p style='color: #b3b3b3; font-size: 12px; text-align: center;margin: 30px 0 0'>Copyright © Multingocios Berakah 2022</p>";
+            stCuerpoHTML += "<p style='color: #b3b3b3; font-size: 12px; text-align: center;margin: 30px 0 0'>Copyright © Multinegocios Berakah 2022</p>";
             stCuerpoHTML += "</div>";
             stCuerpoHTML += "</td>";
             stCuerpoHTML += "</tr>";

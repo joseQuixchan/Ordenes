@@ -10,7 +10,6 @@ function Ordenes(){
     
     $.ajax(settings).done(function (response) {
       $.each(response, function(_index, data){
-        
         let ff = new Date(data.ordenFechaCreacion);
         let fff = new Date(data.ordenFechaEntrega);
         if(data.clienteTelefono == null){
@@ -25,10 +24,10 @@ function Ordenes(){
         "</th><td>" + data.clienteNit +
         "</td><td >" + ff.toLocaleDateString('en-GB') +
         "</td><td>" + fff.toLocaleDateString('en-GB')  +
+        "</td><td>" + "Q." + data.total +
         "</td><td>" + data.usuarioNombre +
-        "</td><td style='display: flex; justify-content: space-evenly;'><button type='button' class='btn btn-primary m-0' onclick='Ocultar("+ data.ordenId +")'><i class='fas fad fa-eye'></i></button>" +
+        "</td><td style='display: flex; justify-content: space-evenly;'><button type='button' class='btn btn-primary m-0' onclick='Ocultar("+ data.ordenId +")'>Detalles</button>" +
         "<button type='button' class='btn btn-primary m-0'  onclick='GenerarPdf(" + data.ordenId + ")'><i class='fas fad fa-print'></i></button>" +
-        "<a class='btn btn-sm btn-primary' href=''><i class='fas fad fa-pen'></i></a>" +
         "</tr>";
         $(OrdenList).appendTo("#tablaOrdenes");
       });

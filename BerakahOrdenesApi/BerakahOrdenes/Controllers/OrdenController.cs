@@ -35,6 +35,7 @@ namespace BerakahOrdenes.Controllers
         [HttpPost]
         public IActionResult CrearOrden(OrdenDto ordenDto)
         {
+            decimal total = 0;
             var permiso = _usuarioRepository.GetUsuarioPermisos(UsuarioAutenticado(), 2);
             if (permiso == null)
             {
@@ -96,12 +97,19 @@ namespace BerakahOrdenes.Controllers
                 detalles.Descripcion = detalle.Descripcion;
                 detalles.OrdenDetalleEstado = true;
                 detalles.OrdenDetalleFechaCreacion = DateTime.Now;
-
+                total = total + detalles.Total;
                 if (!_ordenDetalleRepository.CrearOrdenDetalle(detalles))
                 {
                     ModelState.AddModelError("", $"Algo Salio Mal guardando el registro de la orden");
                     return Ok(0);
                 }
+            }
+
+            orden.Total = total;
+            if (!_ordenRepository.ActualizarOrden(orden))
+            {
+                ModelState.AddModelError("", $"Algo Salio Mal guardando el registro de la orden");
+                return Ok(2);
             }
 
             return Ok(1);

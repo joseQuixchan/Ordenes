@@ -10,6 +10,7 @@ function ObtenerRoles(){
     
     $.ajax(settings).done(function (response) {
       $.each(response, function(_index, data){
+        
           var fila = "<tbody><tr><th scope='row'>" + data.rolId + 
           "</th><td>" + data.rolNombre +
           "</td><td>" + data.rolDescripcion +
@@ -102,10 +103,10 @@ function ObtenerRol(RolId){
 }
 
 function ActualizarRol(){
-  if($("#RolNombre").val() == "" || $("#RolDescripcion").val() == ""){
+  if($("#RolNombreA").val() == "" || $("#RolDescripcionA").val() == ""){
     Swal.fire({
       icon: 'error',
-      title: "EL nombre y descripccion son requeridos",
+      title: "El nombre y descripccion son requeridos",
       showConfirmButton: false,
       timer: 2000
       })
@@ -244,6 +245,11 @@ function ActualizarPermisos(){
           LimpiarTabla();
           ObtenerRoles();
       }else{
+        Swal.fire({
+          icon: 'success',
+          title: 'Permisos Actualizados',
+          timer: 2000
+          })
         CargarPermisos($("#RolMenuPermisoId").val());
       }
   }); 

@@ -165,6 +165,9 @@ namespace BerakahOrdenes.Migrations
                     b.Property<DateTime>("OrdenFechaEntrega")
                         .HasColumnType("datetime2");
 
+                    b.Property<decimal>("Total")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<string>("UsuarioNombre")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");

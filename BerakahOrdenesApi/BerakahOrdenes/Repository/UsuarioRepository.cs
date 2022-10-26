@@ -152,7 +152,7 @@ namespace BerakahOrdenes.Repository
         public ICollection<Menu> ObtenerMenusUsuario(int idUsuario, int? idRol)
         {
             var rolMenu = _db.RolMenu.Include(i => i.Menu)
-                                     .Where(c => c.UsuarioId == idUsuario && c.RolId == idRol && c.RolMenuEstado == true).ToList();
+                                     .Where(c => c.RolId == idRol && c.RolMenuEstado == true).ToList();
 
             var Menus = rolMenu.Select(x => x.Menu).ToList();
 

@@ -65,7 +65,7 @@ namespace BerakahOrdenes.Controllers
             var permiso = _usuarioRepository.GetUsuarioPermisos(UsuarioAutenticado(), 13);
             if (permiso == null)
             {
-                return Ok("Error al realizar la accion, contact con su superior");
+                return Ok("Error al realizar la accion, contacta con su superior");
             }
 
             if (permiso.Consultar == false)
@@ -89,7 +89,7 @@ namespace BerakahOrdenes.Controllers
             var permiso = _usuarioRepository.GetUsuarioPermisos(UsuarioAutenticado(), 13);
             if (permiso == null)
             {
-                return Ok("Error al realizar la accion, contact con su superior");
+                return Ok("Error al realizar la accion, contacta con su superior");
             }
 
             if (permiso.Consultar == false)
@@ -114,7 +114,7 @@ namespace BerakahOrdenes.Controllers
             var permiso = _usuarioRepository.GetUsuarioPermisos(UsuarioAutenticado(), 13);
             if (permiso == null)
             {
-                return Ok("Error al realizar la accion, contact con su superior");
+                return Ok("Error al realizar la accion, contacta con su superior");
             }
 
             if (permiso.Modificar == false)
@@ -150,7 +150,7 @@ namespace BerakahOrdenes.Controllers
             var permiso = _usuarioRepository.GetUsuarioPermisos(UsuarioAutenticado(), 13);
             if (permiso == null)
             {
-                return Ok("Error al realizar la accion, contact con su superior");
+                return Ok("Error al realizar la accion, contacta con su superior");
             }
 
             if (permiso.Eliminar == false)

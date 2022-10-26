@@ -96,7 +96,7 @@ function ObtenerProducto(ProductoId){
         $("#ProductoId").val(ProductoId);
         $("#ProductoNombreA").val(response.productoNombre),
         $("#ProductoDescripcionA").val(response.productoDescripcion)
-        $("#ProductoprecioA").val(response.productoPrecio)
+        $("#ProductoPrecioA").val(response.productoPrecio)
       }else{
         Swal.fire({
           icon: 'error',
@@ -192,11 +192,10 @@ function EliminarProducto(productoId){
 }
 
 function LimpiarFormulario(){
-  $("#ProveedorNombre").val("");
-  $("#ProveedorTelefono").val("");
-  $("#ProveedorCorreo").val("");
-  $("#ProveedorNit").val("");
-  $("#ProveedorDireccion").val("");
+  $("#ProductoNombre").val("");
+  $("#ProductoDescripcion").val("");
+  $("#ProductoPrecio").val("");
+
 }
 
 function LimpiarTabla(){

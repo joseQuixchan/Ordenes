@@ -13,6 +13,7 @@ namespace BerakahOrdenes.Modelos.Dtos
         public string? ClienteDireccion { get; set; }
         public string? ClienteTelefono { get; set; }
         public decimal? Subtotal { get; set; }
+        public decimal? Total { get; set; }
         public List<OrdenDetalle> OrdenDetalles { get; set; }
         public bool OrdenEstado { get; set; }
         public DateTime OrdenFechaEntrega { get; set; }

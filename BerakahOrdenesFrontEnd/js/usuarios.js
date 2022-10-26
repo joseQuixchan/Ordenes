@@ -101,7 +101,6 @@ function ObtenerUsuario(UsuarioId){
     };
     
     $.ajax(settings).done(function (response) {
-      console.log(response);
         LimpiarFormulario();
         $("#UsuarioId").val(UsuarioId);
         $("#UsuarioUsuarioA").val(response.usuarioUsuario);

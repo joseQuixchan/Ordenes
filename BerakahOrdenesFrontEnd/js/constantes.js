@@ -1,6 +1,6 @@
 
 
-const UrlApi = "http://localhost:5091/api/";
+const UrlApi = "https://win5040.site4now.net:8172/MsDeploy.axd?site=josequixchan-001-site1/api/";
 
 let token = JSON.parse(localStorage.getItem("token"));
 

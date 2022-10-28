@@ -1,0 +1,20 @@
+is_global = true
+build_property.TargetFramework = net6.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = BerakahOrdenes
+build_property.RootNamespace = BerakahOrdenes
+build_property.ProjectDir = D:\GitHub\Ordenes\BerakahOrdenesApi\BerakahOrdenes\
+build_property.RazorLangVersion = 6.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = D:\GitHub\Ordenes\BerakahOrdenesApi\BerakahOrdenes
+build_property._RazorSourceGeneratorDebug = 
+
+[D:/GitHub/Ordenes/BerakahOrdenesApi/BerakahOrdenes/vistas/ImprimirVenta.cshtml]
+build_metadata.AdditionalFiles.TargetPath = dmlzdGFzXEltcHJpbWlyVmVudGEuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 

@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Berakah</title>
+    <title>Login</title>
     <link rel="icon" href="img/logo.png">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
@@ -32,8 +32,7 @@
     <link href="css/style.css" rel="stylesheet">
 </head>
 
-<body onload="ObtenerMenus();">
-    
+<body>
     <div class="container-xxl position-relative bg-white d-flex p-0">
         <!-- Spinner Start -->
         <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
@@ -44,268 +43,34 @@
         <!-- Spinner End -->
 
 
-        <!-- Sidebar Start -->
-        <div class="sidebar pe-4 pb-3">
-            <nav class="navbar bg-light navbar-light">
-                <a href="index.html" class="navbar-brand mx-4 mb-3">
-                    <img src="img/LOGO BERAKAH.png" alt="" style="max-width: 200px;">
-                </a>
-                <div class="d-flex align-items-center ms-4 mb-4">
-                    <div class="position-relative">
-                        <img class="rounded-circle" src="img/avatarMain.png" alt="" style="width: 40px; height: 40px;">
-                        <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
+        <!-- Sign In Start -->
+        <div class="container-fluid" style="background-image: url(../img/body.png);">
+            <div class="row h-100 align-items-center justify-content-end" style="min-height: 100vh;">
+                <div class="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-4"  style="margin-right: 15rem;">
+                    <div class="bg-light rounded p-4 p-sm-5 my-4 mx-3" style="box-shadow: 5px 5px 5px #3b3a3ad2;">
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <img src="img/LOGO BERAKAH.png" class="Logo" alt="">
+                            
+                        </div>
+                        <br>
+                        <div class="form-floating mb-3">
+                            <input type="user" class="form-control" id="Usuario" placeholder="name@example.com">
+                            <label for="Usuario">Nombre de usuario</label>
+                        </div>
+                        <div class="form-floating mb-4">
+                            <input type="password" class="form-control" id="Password" placeholder="Password">
+                            <label for="Password">Contraseña</label>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                            <a href="RecuperarPassword.html">Olvide mi contraseña</a>
+                        </div>
+                        <button type="submit" class="btn btn-primary py-3 w-100 mb-4" onclick="iniciodesesion();">Inicio</button>
+                        
                     </div>
-
-                    <!-- Datos usuario -->
-                    <div class="ms-3">
-                        <h6 class="mb-0" id="usuario"></h6>
-                        <span id="nombre"></span>
-                    </div>
-
                 </div>
-                <div class="navbar-nav w-100" id="Menus">
-
-                    <a href="index.html" class="nav-item nav-link active"><i class="fa fad fa-tachometer-alt me-2"></i>Dashboard</a>
-
-                    
-
-                </div>
-            </nav>
+            </div>
         </div>
-        <!-- Sidebar End -->
-
-
-        <!-- Content Start -->
-        <div class="content">
-            <!-- Navbar Start -->
-            <nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">
-                <a href="index.html" class="navbar-brand d-flex d-lg-none me-4">
-                    <h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>
-                </a>
-                <a href="#" class="sidebar-toggler flex-shrink-0">
-                    <i class="fa fa-bars"></i>
-                </a>
-
-                
-
-                <div class="navbar-nav align-items-center ms-auto">
-                    
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                            <i class="fa fa-bell me-lg-2"></i>
-                            <span class="d-none d-lg-inline-flex">Notificaciones</span>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-                            <a href="#" class="dropdown-item">
-                                <h6 class="fw-normal mb-0">Profile updated</h6>
-                                <small>15 minutes ago</small>
-                            </a>
-                            <hr class="dropdown-divider">
-                            <a href="#" class="dropdown-item">
-                                <h6 class="fw-normal mb-0">New user added</h6>
-                                <small>15 minutes ago</small>
-                            </a>
-                            <hr class="dropdown-divider">
-                            <a href="#" class="dropdown-item">
-                                <h6 class="fw-normal mb-0">Password changed</h6>
-                                <small>15 minutes ago</small>
-                            </a>
-                            <hr class="dropdown-divider">
-                            <a href="#" class="dropdown-item text-center">See all notifications</a>
-                        </div>
-                    </div>
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"  id="nombre">
-                            <img class="rounded-circle me-lg-2" src="img/avatarMain.png" alt="" style="width: 40px; height: 40px;">
-                            <span id="nombre1"></span> 
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-                            <a href="#" class="dropdown-item"><i class="fa fad fa-user"></i> Perfil</a>
-                            <a href="html/CambioPasswordUsuario.html" class="dropdown-item"><i class="fa fad fa-cog"></i> Ajustes</a>
-                            <a href="signin.html" class="dropdown-item" onclick="BorrarLocalStorage();"><i class="fa fas fa-door-open"></i> Salir</a>
-                        </div>
-                    </div>
-                </div>
-            </nav>
-            <!-- Navbar End -->
-
-
-            <!-- Sale & Revenue Start -->
-            <div class="container-fluid pt-4 px-4">
-                <div class="row g-4">
-                    <div class="col-sm-6 col-xl-3">
-                        <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
-                            <i class="fa fa-chart-line fa-3x text-primary"></i>
-                            <div class="ms-3">
-                                <p class="mb-2">Ventas totales Hoy</p>
-                                <label id="totalHoy"></label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-xl-3">
-                        <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
-                            <i class="fa fa-chart-bar fa-3x text-primary"></i>
-                            <div class="ms-3">
-                                <p class="mb-2">Total Venta</p>
-                                <h6 class="mb-0">Q1234.00</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-xl-3">
-                        <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
-                            <i class="fa fa-chart-area fa-3x text-primary"></i>
-                            <div class="ms-3">
-                                <p class="mb-2">Total Venta</p>
-                                <h6 class="mb-0">Q1234.00</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 col-xl-3">
-                        <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
-                            <i class="fa fa-chart-pie fa-3x text-primary"></i>
-                            <div class="ms-3">
-                                <p class="mb-2">Total Venta</p>
-                                <h6 class="mb-0">Q1234.00</h6>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Sale & Revenue End -->
-
-
-          
-
-            <!-- Recent Sales Start -->
-            <div class="col-12 tabla px-4 pt-4" id="Ordenes">
-                <div class="bg-light rounded">
-                        <!-- Recent Sales Start -->
-                        <div class="container-fluid">
-                            <div class="bg-light text-center rounded p-4">
-                                <div class="d-flex align-items-center justify-content-between mb-4">
-                                    <h6 class="mb-0">Ordenes Recientes</h6>
-                                    
-                                </div>
-                                <div class="table-responsive">
-                                    <table class="table text-start align-middle table-bordered table-hover mb-0" id="tablaOrdenes">
-                                        <thead>
-                                            <tr class="text-dark">
-                                                <th scope="col" hidden >Cliente</th>
-                                                <th scope="col">Cliente</th>
-                                                <th scope="col">Teléfono</th>
-                                                <th scope="col">NIT</th>
-                                                <th scope="col">Fecha de Creación</th>
-                                                <th scope="col">Fecha de Entrega</th>
-                                                <th scope="col">Total</th>
-                                                <th scope="col">Usuario</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            
-                                            
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Recent Sales End --> 
-                </div>
-            </div>
-            <!-- Recent Sales End -->
-
-
-            <!-- Widgets Start -->
-            <div class="container-fluid pt-4 px-4">
-                <div class="row g-4">
-                    
-                    <div class="col-sm-12 col-md-6 col-xl-4">
-                        <div class="h-100 bg-light rounded p-4">
-                            <div class="d-flex align-items-center justify-content-between mb-4">
-                                <h6 class="mb-0">Calendario</h6>
-                       
-                            </div>
-                            <div id="calender"></div>
-                        </div>
-                    </div>
-                    <div class="col-sm-12 col-md-6 col-xl-4">
-                        <div class="h-100 bg-light rounded p-4">
-                            <div class="d-flex align-items-center justify-content-between mb-4">
-                                <h6 class="mb-0">Tareas Pendientes</h6>
-                               
-                            </div>
-                            <div class="d-flex mb-2">
-                                <input class="form-control bg-transparent" type="text" placeholder="Enter task">
-                                <button type="button" class="btn btn-primary ms-2">Add</button>
-                            </div>
-                            <div class="d-flex align-items-center border-bottom py-2">
-                                <input class="form-check-input m-0" type="checkbox">
-                                <div class="w-100 ms-3">
-                                    <div class="d-flex w-100 align-items-center justify-content-between">
-                                        <span>Short task goes here...</span>
-                                        <button class="btn btn-sm"><i class="fa fa-times"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center border-bottom py-2">
-                                <input class="form-check-input m-0" type="checkbox">
-                                <div class="w-100 ms-3">
-                                    <div class="d-flex w-100 align-items-center justify-content-between">
-                                        <span>Short task goes here...</span>
-                                        <button class="btn btn-sm"><i class="fa fa-times"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center border-bottom py-2">
-                                <input class="form-check-input m-0" type="checkbox" checked>
-                                <div class="w-100 ms-3">
-                                    <div class="d-flex w-100 align-items-center justify-content-between">
-                                        <span><del>Short task goes here...</del></span>
-                                        <button class="btn btn-sm text-primary"><i class="fa fa-times"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center border-bottom py-2">
-                                <input class="form-check-input m-0" type="checkbox">
-                                <div class="w-100 ms-3">
-                                    <div class="d-flex w-100 align-items-center justify-content-between">
-                                        <span>Short task goes here...</span>
-                                        <button class="btn btn-sm"><i class="fa fa-times"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center pt-2">
-                                <input class="form-check-input m-0" type="checkbox">
-                                <div class="w-100 ms-3">
-                                    <div class="d-flex w-100 align-items-center justify-content-between">
-                                        <span>Short task goes here...</span>
-                                        <button class="btn btn-sm"><i class="fa fa-times"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Widgets End -->
-
-
-            <!-- Footer Start -->
-            <div class="container-fluid pt-4 px-4">
-                <div class="bg-light rounded-top p-4">
-                    <div class="row">
-                        <div class="col-12 col-sm-6 text-center text-sm-start">
-                            &copy; <a href="#">Your Site Name</a>, All Right Reserved. 
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Footer End -->
-        </div>
-        <!-- Content End -->
-
-
-        <!-- Back to Top -->
-        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+        <!-- Sign In End -->
     </div>
 
     <!-- JavaScript Libraries -->
@@ -320,9 +85,11 @@
     <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
 
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <!-- Template Javascript -->
+    <script src="js/login.js"></script>
     <script src="js/main.js"></script>
-    <script  src="js/constantes.js"></script>
+    <script src="js/constantes.js"></script>
 </body>
 
 </html>

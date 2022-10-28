@@ -1,6 +1,6 @@
 
 
-const UrlApi = "https://win5040.site4now.net:8172/MsDeploy.axd?site=josequixchan-001-site1/api/";
+const UrlApi = "http://localhost:5091/api/";
 
 let token = JSON.parse(localStorage.getItem("token"));
 
@@ -11,7 +11,7 @@ document.getElementById("nombre").innerHTML = usuarioPerfil.usuarioNombre + " " 
 document.getElementById("nombre1").innerHTML = usuarioPerfil.usuarioNombre + " " + usuarioPerfil.usuarioApellido;
 
 function BorrarLocalStorage(){
-    location.href = "signin.html";
+    location.href = "index.html";
     localStorage.removeItem("token");
     localStorage.removeItem("usuario");
     

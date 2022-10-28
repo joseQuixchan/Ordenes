@@ -33,7 +33,7 @@ function CambioPass(cambioPass){
   if(cambioPass == true){
       location.href = "CambioPassword.html";
   }else{
-      location.href = "index.html";
+      location.href = "dashboard.html";
   }
 } 
 

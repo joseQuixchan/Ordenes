@@ -67,7 +67,7 @@ function CambiarPasword(){
                   showConfirmButton: false,
                   timer: 2000
                   })
-                  location.href = "index.html";
+                  location.href = "dashboard.html";
                   BorrarLocalStorage();
               }else{
                 Swal.fire({

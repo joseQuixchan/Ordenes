@@ -71,7 +71,7 @@ function CambiarPasword(){
                       showConfirmButton: false,
                       timer: 2000
                       })
-                      location.href = "signin.html";
+                      location.href = "index.html";
                   }else{
                     Swal.fire({
                       icon: 'error',

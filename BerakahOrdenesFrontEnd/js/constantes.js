@@ -1,6 +1,6 @@
 
 
-const UrlApi = "http://34.82.45.85/api/";
+const UrlApi = "http://www.berakahMultinegocios.somee.com/api/";
 
 let token = JSON.parse(localStorage.getItem("token"));
 

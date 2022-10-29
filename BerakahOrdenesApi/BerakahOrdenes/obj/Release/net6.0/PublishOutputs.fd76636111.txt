@@ -2,7 +2,6 @@ D:\GitHub\Ordenes\BerakahOrdenesApi\BerakahOrdenes\obj\Release\net6.0\PubTmp\Out
 D:\GitHub\Ordenes\BerakahOrdenesApi\BerakahOrdenes\obj\Release\net6.0\PubTmp\Out\Select.Html.dep
 D:\GitHub\Ordenes\BerakahOrdenesApi\BerakahOrdenes\obj\Release\net6.0\PubTmp\Out\appsettings.Development.json
 D:\GitHub\Ordenes\BerakahOrdenesApi\BerakahOrdenes\obj\Release\net6.0\PubTmp\Out\appsettings.json
-D:\GitHub\Ordenes\BerakahOrdenesApi\BerakahOrdenes\obj\Release\net6.0\PubTmp\Out\vistas\imagenes\LOGOBERAKAH.png
 D:\GitHub\Ordenes\BerakahOrdenesApi\BerakahOrdenes\obj\Release\net6.0\PubTmp\Out\wkhtmltopdf\Windows\wkhtmltopdf.exe
 D:\GitHub\Ordenes\BerakahOrdenesApi\BerakahOrdenes\obj\Release\net6.0\PubTmp\Out\refs\Microsoft.AspNetCore.Antiforgery.dll
 D:\GitHub\Ordenes\BerakahOrdenesApi\BerakahOrdenes\obj\Release\net6.0\PubTmp\Out\refs\Microsoft.AspNetCore.Authentication.Abstractions.dll

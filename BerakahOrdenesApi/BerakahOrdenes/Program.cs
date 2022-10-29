@@ -84,7 +84,7 @@ builder.Services.AddCors(opt =>
 {
     opt.AddDefaultPolicy(builder =>
     {
-        builder.AllowAnyOrigin()
+        builder.WithOrigins("https://berakaordenes.netlify.app/")
             .AllowAnyHeader()
             .AllowAnyMethod();
     });

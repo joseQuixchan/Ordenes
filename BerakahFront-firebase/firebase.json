@@ -1,0 +1,11 @@
+{
+  "hosting": {
+    "site": "multinegociosberakah",
+    "public": "./",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}

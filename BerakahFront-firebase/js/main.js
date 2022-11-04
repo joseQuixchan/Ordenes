@@ -145,7 +145,7 @@ function OrdenesD(){
     var totalHoy = 0;
     var totalventa;
     var settings = {
-        "url": UrlApi + "Orden",
+        "url": UrlApi + "Orden/OrdenesHoy",
         "method": "Get",
         "timeout": 0,
         "headers": {
@@ -175,13 +175,106 @@ function OrdenesD(){
           "</tr>";
           totalHoy = totalHoy + data.total;
           $(OrdenList).appendTo("#tablaOrdenesD");
+
+          var notificacion = "<a href='#' class='dropdown-item'><h6 class='fw-normal mb-0'>" + "Orden agregada: " + data.ordenId +
+          "</h6><small>"+ data.clienteNombre + ", " + "Q." + data.total + ", "+"</small>" +
+          "<small>" + ff.toLocaleDateString('en-GB') +
+          "</small></a>";
+          $(notificacion).appendTo("#notificaciones");
         });
         document.getElementById("totalHoy").innerHTML = "Q." + totalHoy;
         document.getElementById("totalventa").innerHTML = totalventa;
-      });
-      
-      //$(totalHoy).appendTo("#totalHoy");
+    });
   }
+
+function ObtenerTareas(){
+    var settings = {
+        "url": UrlApi + "Tarea",
+        "method": "Get",
+        "timeout": 0,
+        "headers": {
+          "Authorization": "Bearer " + token.token
+        },
+      };
+      
+      $.ajax(settings).done(function (response) {
+        totalventa = response.length;
+        $.each(response, function(_index, data){
+            let ff = new Date(data.tareaFechaCreacion);
+            var tareas = "<div class='d-flex align-items-center border-bottom py-2'>" +
+            "<div class='w-100 ms-3'>" +
+            "<div class='d-flex w-100 align-items-center justify-content-between'>" +
+            "<span>" + data.tareaDescripcion + " || " + ff.toLocaleDateString('en-GB') + "</span>" +
+            "<button class='btn btn-sm'  onclick='EliminarTareas(" + data.tareaId + ");'><i class='fa fa-times'></i></button>" + 
+            "</div></div></div>";
+            $(tareas).appendTo("#tareas");
+        });
+        
+    });
+}
+
+function CrarTareas(){
+    if($("#NuevaTarea").val() != ""){
+        var settings = {
+            "url": UrlApi  + "Tarea",
+            "method": "POST",  
+            "timeout": 0,
+            "headers": {
+              "Authorization": "Bearer " + token.token,
+              "Content-Type": "application/json"
+            },
+            "data": JSON.stringify({
+                "tareaDescripcion": $("#NuevaTarea").val(),
+            }),
+            
+          };
+          
+          $.ajax(settings).done(function (response) {      
+              if(response==1){
+                Swal.fire({
+                  title: 'Tarea agrgada',
+                  showConfirmButton: false,
+                  timer: 1500
+                  })
+                  limpiarTarea();
+                  ObtenerTareas();
+              }else{
+                Swal.fire({
+                  icon: 'error',
+                  title: response,
+                  showConfirmButton: false,
+                  timer: 2000
+                })
+              }
+          }); 
+    }else{
+
+    }
+    
+}
+
+
+function EliminarTareas(tareaId){
+        var settings = {
+            "url": UrlApi  + "Tarea/" + tareaId,
+            "method": "Put",  
+            "timeout": 0,
+            "headers": {
+              "Authorization": "Bearer " + token.token,
+              "Content-Type": "application/json"
+            },
+          };
+          $.ajax(settings).done(function (response) {
+            limpiarTarea();
+            ObtenerTareas();
+          });
+}
+
+function limpiarTarea(){
+    $("#NuevaTarea").val('')
+    $(document).ready(function() { $("#tareas").find("div:gt(0)").remove(); });
+}
+
 
 (function ($) {
     "use strict";

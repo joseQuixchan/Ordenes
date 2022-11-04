@@ -1,6 +1,7 @@
 var pepa = [];
 var id = 0;
-
+$("#abono").val(0);
+$("fecha").val(Date.now());
 function ObtenerClientesyProductos(){
   var settings = {
       "url": UrlApi + "Cliente",
@@ -81,7 +82,9 @@ function quitarProductos(id){
 
 
 function agregarOrden(){
-  var settings = {
+  if($("#fecha").val() != ""){
+
+    var settings = {
       "url": UrlApi  + "Orden",
       "method": "POST",  
       "timeout": 0,
@@ -96,10 +99,12 @@ function agregarOrden(){
           "clienteCorreo": $("#correo").val(),
           "clienteDireccion": $("#direccion").val(),
           "clienteTelefono": $("#telefono").val(),
+          "abono": $("#abono").val(),
           "ordenDetalles": pepa,
           "ordenEstado": true,
           "ordenFechaEntrega": $("#fecha").val()
       }),
+      
       
     };
     
@@ -121,6 +126,14 @@ function agregarOrden(){
             })
         }
     }); 
+  }else{
+    Swal.fire({
+      title: "Es necesario que ingrese una fecha de entrega",
+      showConfirmButton: false,
+      timer: 2500
+      })
+  }
+  
 }
 
 function getCliente(Cliente){

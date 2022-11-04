@@ -89,30 +89,7 @@
                 
                 <div class="navbar-nav align-items-center ms-auto">
                     
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                            <i class="fa fa-bell me-lg-2"></i>
-                            <span class="d-none d-lg-inline-flex">Notificaciones</span>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
-                            <a href="#" class="dropdown-item">
-                                <h6 class="fw-normal mb-0">Profile updated</h6>
-                                <small>15 minutes ago</small>
-                            </a>
-                            <hr class="dropdown-divider">
-                            <a href="#" class="dropdown-item">
-                                <h6 class="fw-normal mb-0">New user added</h6>
-                                <small>15 minutes ago</small>
-                            </a>
-                            <hr class="dropdown-divider">
-                            <a href="#" class="dropdown-item">
-                                <h6 class="fw-normal mb-0">Password changed</h6>
-                                <small>15 minutes ago</small>
-                            </a>
-                            <hr class="dropdown-divider">
-                            <a href="#" class="dropdown-item text-center">See all notifications</a>
-                        </div>
-                    </div>
+                    
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                             <img class="rounded-circle me-lg-2" src="../img/avatarMain.png" alt="" style="width: 40px; height: 40px;">
@@ -139,6 +116,7 @@
                     <i class="fa fa-plus-circle m-2"></i>
                 </a>
             </div>
+            
 
                 <!-- tabla -->
             <div class="col-12 tabla" id="Ordenes">
@@ -146,15 +124,19 @@
                         <!-- Recent Sales Start -->
                         <div class="container-fluid">
                             <div class="bg-light text-center rounded p-4">
+                                
                                 <div class="d-flex align-items-center justify-content-between mb-4">
                                     <h6 class="mb-0">Listado de Ordenes</h6>
-                                    
+                                </div>
+                                <div class="d-flex align-items-center justify-content-between mb-4" style="max-width: 12%;">
+                                    <input type="text" class="form-control"  id="BuscarId" style="margin-right: 5px;" placeholder="Correlativo">
+                                    <button type='button' class='btn btn-primary m-0' onclick='ordenBuscar();'><i class='fas fad fa-search'></i></button>
                                 </div>
                                 <div class="table-responsive">
                                     <table class="table text-start align-middle table-bordered table-hover mb-0" id="tablaOrdenes">
                                         <thead>
                                             <tr class="text-dark">
-                                                <th scope="col" hidden >Cliente</th>
+                                                <th scope="col">Correlativo</th>
                                                 <th scope="col">Cliente</th>
                                                 <th scope="col">Teléfono</th>
                                                 <th scope="col">NIT</th>
@@ -207,7 +189,40 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- Recent Sales End --> 
+                </div>
+            </div>
+            <div class="col-12 tabla" id="OrdenBuscada">
+                <div class="bg-light rounded">
+                        <!-- Recent Sales Start -->
+                        <div class="container-fluid">
+                            <div class="bg-light text-center rounded p-4">
+                                <div class="d-flex align-items-center justify-content-between mb-4">
+                                    <h6 class="mb-0">Detalles Orden No. <label >1</label></h6>
+                                    <button type='button' class='btn btn-primary m-0'  onclick='RegresarOrdenes();'>Regresar al listado<i class="fa fa-list m-2"></i></button>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table text-start align-middle table-bordered table-hover mb-0" id="tablaOrdenBuscada">
+                                        <thead>
+                                            <tr class="text-dark">
+                                                <th scope="col">Correlativo</th>
+                                                <th scope="col">Cliente</th>
+                                                <th scope="col">Teléfono</th>
+                                                <th scope="col">NIT</th>
+                                                <th scope="col">Fecha de Creación</th>
+                                                <th scope="col">Fecha de Entrega</th>
+                                                <th scope="col">Total</th>
+                                                <th scope="col">Usuario</th>
+                                                <th scope="col">Opciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            
+                                            
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                 </div>
             </div>
 
@@ -221,7 +236,7 @@
                 <div class="bg-light rounded-top p-4">
                     <div class="row">
                         <div class="col-12 col-sm-6 text-center text-sm-start">
-                            &copy; <a href="#">Multinegocios Berakah</a>, todos los derechos recervados. 
+                            &copy; <a href="#">Multinegocios Berakah S.A</a>, todos los derechos reservados. 
                         </div>
                     </div>
                 </div>

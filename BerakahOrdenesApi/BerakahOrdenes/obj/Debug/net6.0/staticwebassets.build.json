@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "vcm2kV1e4wLCkxQck4m760t3a0tQ30Pk6igwDMi9GvE=",
+  "Hash": "ITqy2WKxbi8gWKHOoODcZBIhTdjTpbfqClXlwMPyjP8=",
   "Source": "BerakahOrdenes",
   "BasePath": "_content/BerakahOrdenes",
   "Mode": "Default",
@@ -16,23 +16,6 @@
     }
   ],
   "Assets": [
-    {
-      "Identity": "D:\\GitHub\\Ordenes\\BerakahOrdenesApi\\BerakahOrdenes\\wwwroot\\imagenes\\avatarMain.png",
-      "SourceId": "BerakahOrdenes",
-      "SourceType": "Discovered",
-      "ContentRoot": "D:\\GitHub\\Ordenes\\BerakahOrdenesApi\\BerakahOrdenes\\wwwroot\\",
-      "BasePath": "_content/BerakahOrdenes",
-      "RelativePath": "imagenes/avatarMain.png",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\imagenes\\avatarMain.png"
-    },
     {
       "Identity": "D:\\GitHub\\Ordenes\\BerakahOrdenesApi\\BerakahOrdenes\\wwwroot\\imagenes\\LOGOBERAKAH.png",
       "SourceId": "BerakahOrdenes",

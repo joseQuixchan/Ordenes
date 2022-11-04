@@ -33,7 +33,7 @@ namespace BerakahOrdenes.Controllers
 
 
         [HttpPost]
-        public IActionResult CrearOrden(OrdenDto ordenDto)
+        public IActionResult CrearOrden(OrdenDto? ordenDto)
         {
             decimal total = 0;
             var permiso = _usuarioRepository.GetUsuarioPermisos(UsuarioAutenticado(), 2);
@@ -74,11 +74,16 @@ namespace BerakahOrdenes.Controllers
             {
                 orden.ClienteTelefono = "No especificado";
             }
+            orden.Abono = ordenDto.Abono;
+            if (orden.Abono == null)
+            {
+                orden.Abono = 0;
+            }
             orden.ClienteTelefono = ordenDto.ClienteTelefono;
             orden.OrdenEstado = ordenDto.OrdenEstado;
             orden.OrdenFechaCreacion = DateTime.Now;
             orden.OrdenFechaEntrega = ordenDto.OrdenFechaEntrega;
-            
+
 
             if (!_ordenRepository.CrearOrden(orden))
             {
@@ -141,6 +146,59 @@ namespace BerakahOrdenes.Controllers
             return Ok(listaOrdenesDto);
         }
 
+        [HttpGet("OrdenesHoy")]
+        public IActionResult GetOrdenesHoy()
+        {
+            var permiso = _usuarioRepository.GetUsuarioPermisos(UsuarioAutenticado(), 2);
+            if (permiso == null)
+            {
+                return Ok("Error al realizar la accion, contact con su superior");
+            }
+
+            if (permiso.Consultar == false)
+            {
+                return Ok("No puedes hacer esta accion");
+            }
+            var listaOrdenes = _ordenRepository.GetOrdenesFehca();
+            var listaOrdenesDto = new List<OrdenDto>();
+
+            foreach (var lista in listaOrdenes)
+            {
+
+                listaOrdenesDto.Add(_mapper.Map<OrdenDto>(lista));
+            }
+
+            return Ok(listaOrdenesDto);
+        }
+
+        [HttpGet("Orden")]
+        public ActionResult GetOrdenId(int ordenId)
+        {
+            if (ordenId < 0)
+            {
+                return Ok("El numero de orden es necesario");
+            }
+            var orden = _ordenRepository.GetOrden(ordenId);
+
+            if (orden == null)
+            {
+                return Ok(2);
+            }
+
+            decimal subTotal = 0;
+
+            foreach (var total in orden.OrdenDetalles)
+            {
+                subTotal = total.Total + subTotal;
+            }
+
+            var itnemOrden = _mapper.Map<OrdenViewDto>(orden);
+            itnemOrden.Subtotal = subTotal;
+
+            return Ok(itnemOrden);
+        }
+
+
         [AllowAnonymous]
         [HttpGet("GenerarPdf")]
         public async Task<IActionResult> GetOrdenPDF(int ordenId)
@@ -159,8 +217,10 @@ namespace BerakahOrdenes.Controllers
                 subTotal = total.Total + subTotal;
             }
 
+            decimal? abono = subTotal - orden.Abono;
             var itnemOrden = _mapper.Map<OrdenDto>(orden);
             itnemOrden.Subtotal = subTotal;
+            itnemOrden.Saldo = abono;
 
             return await _pdf.GetPdf("vistas/ImprimirVenta.cshtml", itnemOrden);
            
@@ -203,7 +263,7 @@ namespace BerakahOrdenes.Controllers
             var permiso = _usuarioRepository.GetUsuarioPermisos(UsuarioAutenticado(), 2);
             if (permiso == null)
             {
-                return Ok("Error al realizar la accion, contact con su superior");
+                return Ok("Error al realizar la accion, contacta con su superior");
             }
 
             if (permiso.Consultar == false)

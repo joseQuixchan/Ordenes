@@ -20,7 +20,9 @@ namespace BerakahOrdenes.BerakahMapper
             CreateMap<Proveedor, ProveedorDto>().ReverseMap();
             CreateMap<Producto, ProductoDto>().ReverseMap();
             CreateMap<Orden, OrdenDto>().ReverseMap();
+            CreateMap<Orden, OrdenViewDto>().ReverseMap();
             CreateMap<OrdenDetalle, OrdenDetalleDto>().ReverseMap();
+            CreateMap<Tarea, TareaDto>().ReverseMap();
         }
     }
 }

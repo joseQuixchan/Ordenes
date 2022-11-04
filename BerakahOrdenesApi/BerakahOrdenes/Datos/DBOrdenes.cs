@@ -22,5 +22,6 @@ namespace BerakahOrdenes.Datos
         public DbSet<Orden> Orden { get; set; }
         public DbSet<OrdenDetalle> OrdenDetalle { get; set; }
         public DbSet<Token> Token { get; set; }
+        public DbSet<Tarea> Tarea { get; set; }
     }
 }

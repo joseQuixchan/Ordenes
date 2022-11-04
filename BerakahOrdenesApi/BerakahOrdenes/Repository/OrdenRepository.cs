@@ -47,6 +47,11 @@ namespace BerakahOrdenes.Repository
             return _db.Orden.Include(i => i.OrdenDetalles).FirstOrDefault(c => c.OrdenId == id);
         }
 
+        public ICollection<Orden> GetOrdenesFehca()
+        {
+            return _db.Orden.Where(c => c.OrdenFechaCreacion  > DateTime.Now.AddDays(-1) && c.OrdenFechaCreacion < DateTime.Now.AddDays(1)).ToList();
+        }
+
         public ICollection<Orden> GetOrdenes()
         {
             return _db.Orden.OrderByDescending(c => c.OrdenFechaCreacion).ToList();

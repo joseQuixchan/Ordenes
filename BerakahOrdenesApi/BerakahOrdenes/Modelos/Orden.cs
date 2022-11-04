@@ -15,6 +15,7 @@ namespace BerakahOrdenes.Modelos
         public string UsuarioNombre { get; set; } = null!;
         public bool OrdenEstado { get; set; }
         public decimal Total { get; set; }
+        public decimal? Abono { get; set; }
         public DateTime OrdenFechaCreacion { get; set; }
         public DateTime OrdenFechaEntrega { get; set; }
         public string? ClienteNit { get; set; }

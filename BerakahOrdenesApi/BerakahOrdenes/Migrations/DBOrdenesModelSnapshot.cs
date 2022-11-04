@@ -140,6 +140,9 @@ namespace BerakahOrdenes.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrdenId"), 1L, 1);
 
+                    b.Property<decimal?>("Abono")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<string>("ClienteCorreo")
                         .HasColumnType("nvarchar(max)");
 
@@ -360,6 +363,29 @@ namespace BerakahOrdenes.Migrations
                     b.HasIndex("UsuarioId");
 
                     b.ToTable("RolMenu");
+                });
+
+            modelBuilder.Entity("BerakahOrdenes.Modelos.Tarea", b =>
+                {
+                    b.Property<int>("TareaId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TareaId"), 1L, 1);
+
+                    b.Property<string>("TareaDescripcion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TareaEstado")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("TareaFechaCreacion")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("TareaId");
+
+                    b.ToTable("Tarea");
                 });
 
             modelBuilder.Entity("BerakahOrdenes.Modelos.Token", b =>

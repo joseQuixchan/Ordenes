@@ -441,17 +441,22 @@ namespace BerakahOrdenes.Controllers
         [HttpPost("RecuperarPassword")]
         public IActionResult RecuperarPassword(UsuarioRecuperarPasswordDto usuarioDto)
         {
-            if (usuarioDto.Codigo == null)
+            if (usuarioDto.Codigo == null || usuarioDto.Codigo == "")
             {
                 return Ok("Es necesario que ingrese un Codigo de Seguridad");
             } 
 
-            if(usuarioDto.Password == null){
+            if(usuarioDto.Password == null || usuarioDto.Password == "")
+            {
                 return Ok("Es necesario que ingrese una contraseña");
             }
 
 
             var token = _tokenRepository.GetToken(usuarioDto.Codigo);
+            if (token == null)
+            {
+                return Ok("El codigo no es valido, por favor genera otro");
+            }
             var usuario = token.Usuario;
 
             if (usuario == null)

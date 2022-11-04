@@ -48,6 +48,7 @@ function EnviarCorreo(){
 function CambiarPasword(){
     var pass1 = $("#Password1").val()
     var pass2 = $("#Password2").val()
+    console.log($("#codigo").val());
     if($("#codigo").val() != ""){
         if(pass1 == pass2 ){
             var settings = {

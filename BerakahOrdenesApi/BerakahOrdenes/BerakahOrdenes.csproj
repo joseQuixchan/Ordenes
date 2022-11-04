@@ -28,7 +28,6 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
-    <Folder Include="vistas\imagenes\" />
   </ItemGroup>
 
   <ItemGroup>

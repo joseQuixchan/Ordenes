@@ -117,7 +117,7 @@ namespace BerakahOrdenes.Controllers
 
 
         [HttpPut("{clienteId:int}", Name = "ActualizarCliente")]
-        public IActionResult ActualizarCliente(int clienteId, [FromBody]ClienteDto clienteDto)
+        public IActionResult ActualizarCliente(int clienteId, [FromBody] ClienteDto clienteDto)
         {
             var permiso = _usuarioRepository.GetUsuarioPermisos(UsuarioAutenticado(), 7);
             if (permiso == null)
@@ -173,7 +173,7 @@ namespace BerakahOrdenes.Controllers
 
             var cliente = _clienteRepository.GetCliente(clienteId.ClienteId);
 
-            if(cliente == null || cliente.ClienteEstado == false)
+            if (cliente == null || cliente.ClienteEstado == false)
             {
                 return Ok("El cliene no existe");
             }

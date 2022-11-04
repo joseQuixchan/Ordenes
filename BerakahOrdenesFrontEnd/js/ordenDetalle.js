@@ -1,7 +1,6 @@
 var pepa = [];
 var id = 0;
-$("#abono").val(0);
-$("fecha").val(Date.now());
+
 function ObtenerClientesyProductos(){
   var settings = {
       "url": UrlApi + "Cliente",
@@ -53,6 +52,7 @@ function agregarProductos(){
 
     var subTotal = ($("#subTotal").val() * 1 + $("#precio").val() * $("#cantidad").val());  
     $("#subTotal").val(subTotal);
+    $("#abono").val(0);
 
     var items = {
         "correlativo": id,
@@ -66,7 +66,7 @@ function agregarProductos(){
     id++;
     console.log(pepa);
     LimpiarFormulario();
-
+    
   }catch(error){
     console.error(error);
   }
@@ -83,9 +83,7 @@ function quitarProductos(id){
 
 function agregarOrden(){
   if($("#fecha").val() != ""){
-    if($("#abono").val() == ""){
-      $("#fecha").val(0)
-    }
+  
     var settings = {
       "url": UrlApi  + "Orden",
       "method": "POST",  

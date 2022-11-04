@@ -1,7 +1,6 @@
 var pepa = [];
 var id = 0;
-$("#abono").val(0);
-$("fecha").val(Date.now());
+
 function ObtenerClientesyProductos(){
   var settings = {
       "url": UrlApi + "Cliente",
@@ -66,7 +65,7 @@ function agregarProductos(){
     id++;
     console.log(pepa);
     LimpiarFormulario();
-
+    $("#abono").val(0);
   }catch(error){
     console.error(error);
   }
@@ -83,7 +82,7 @@ function quitarProductos(id){
 
 function agregarOrden(){
   if($("#fecha").val() != ""){
-
+  
     var settings = {
       "url": UrlApi  + "Orden",
       "method": "POST",  

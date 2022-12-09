@@ -83,7 +83,10 @@ function quitarProductos(id){
 
 function agregarOrden(){
   if($("#fecha").val() != ""){
-  
+    var pepaAbono =  $("#abono").val();
+    if(pepaAbono == ""){
+      pepaAbono = 0;
+    }
     var settings = {
       "url": UrlApi  + "Orden",
       "method": "POST",  
@@ -99,7 +102,7 @@ function agregarOrden(){
           "clienteCorreo": $("#correo").val(),
           "clienteDireccion": $("#direccion").val(),
           "clienteTelefono": $("#telefono").val(),
-          "abono": $("#abono").val(),
+          "abono": pepaAbono,
           "ordenDetalles": pepa,
           "ordenEstado": true,
           "ordenFechaEntrega": $("#fecha").val()

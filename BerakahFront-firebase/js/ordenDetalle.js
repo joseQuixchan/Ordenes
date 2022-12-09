@@ -52,6 +52,7 @@ function agregarProductos(){
 
     var subTotal = ($("#subTotal").val() * 1 + $("#precio").val() * $("#cantidad").val());  
     $("#subTotal").val(subTotal);
+    $("#abono").val(0);
 
     var items = {
         "correlativo": id,
@@ -65,7 +66,7 @@ function agregarProductos(){
     id++;
     console.log(pepa);
     LimpiarFormulario();
-    $("#abono").val(0);
+    
   }catch(error){
     console.error(error);
   }
@@ -82,7 +83,10 @@ function quitarProductos(id){
 
 function agregarOrden(){
   if($("#fecha").val() != ""){
-  
+    var pepaAbono =  $("#abono").val();
+    if(pepaAbono == ""){
+      pepaAbono = 0;
+    }
     var settings = {
       "url": UrlApi  + "Orden",
       "method": "POST",  
@@ -98,7 +102,7 @@ function agregarOrden(){
           "clienteCorreo": $("#correo").val(),
           "clienteDireccion": $("#direccion").val(),
           "clienteTelefono": $("#telefono").val(),
-          "abono": $("#abono").val(),
+          "abono": pepaAbono,
           "ordenDetalles": pepa,
           "ordenEstado": true,
           "ordenFechaEntrega": $("#fecha").val()

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BerakahOrdenes.Datos;
 using BerakahOrdenes.Modelos;
 using BerakahOrdenes.Modelos.Dtos;
 using BerakahOrdenes.Repository.IRepository;
@@ -20,10 +21,12 @@ namespace BerakahOrdenes.Controllers
         private readonly IMapper _mapper;
         private readonly IConfiguration _config;
         private readonly IGeneratePdf _pdf;
+        private readonly DBOrdenes _db;
 
-        public OrdenController(IUsuarioRepository usuarioRepository, IGeneratePdf pdf, IOrdenRepository ordenRepository, IOrdenDetalleRepository ordenDetalleRepository, IMapper mapper, IConfiguration config)
+        public OrdenController(DBOrdenes db, IUsuarioRepository usuarioRepository, IGeneratePdf pdf, IOrdenRepository ordenRepository, IOrdenDetalleRepository ordenDetalleRepository, IMapper mapper, IConfiguration config)
         {
             _pdf = pdf;
+            _db = db;
             _usuarioRepository = usuarioRepository;
             _ordenRepository = ordenRepository;
             _ordenDetalleRepository = ordenDetalleRepository;
@@ -84,40 +87,56 @@ namespace BerakahOrdenes.Controllers
             orden.OrdenFechaCreacion = DateTime.Now;
             orden.OrdenFechaEntrega = ordenDto.OrdenFechaEntrega;
 
-
-            if (!_ordenRepository.CrearOrden(orden))
+            using (var transaction = _db.Database.BeginTransaction())
             {
-                ModelState.AddModelError("", $"Algo Salio Mal guardando el registro de la orden");
-                return Ok(2);
-            }
-
-            foreach(var detalle in ordenDto.OrdenDetalles)
-            {
-                OrdenDetalle detalles = new OrdenDetalle();
-                detalles.OrdenId = orden.OrdenId;
-                detalles.Cantidad = detalle.Cantidad;
-                detalles.NombreProducto = detalle.NombreProducto;
-                detalles.PrecioUniario = detalle.PrecioUniario;
-                detalles.Total = detalle.Cantidad * detalle.PrecioUniario;
-                detalles.Descripcion = detalle.Descripcion;
-                detalles.OrdenDetalleEstado = true;
-                detalles.OrdenDetalleFechaCreacion = DateTime.Now;
-                total = total + detalles.Total;
-                if (!_ordenDetalleRepository.CrearOrdenDetalle(detalles))
+                try
                 {
-                    ModelState.AddModelError("", $"Algo Salio Mal guardando el registro de la orden");
-                    return Ok(0);
+
+                    if (!_ordenRepository.CrearOrden(orden))
+                    {
+                        ModelState.AddModelError("", $"Algo Salio Mal guardando el registro de la orden");
+                        return Ok(2);
+                    }
+
+                    foreach (var detalle in ordenDto.OrdenDetalles)
+                    {
+                        OrdenDetalle detalles = new OrdenDetalle();
+                        detalles.OrdenId = orden.OrdenId;
+                        detalles.Cantidad = detalle.Cantidad;
+                        detalles.NombreProducto = detalle.NombreProducto;
+                        detalles.PrecioUniario = detalle.PrecioUniario;
+                        detalles.Total = detalle.Cantidad * detalle.PrecioUniario;
+                        detalles.Descripcion = detalle.Descripcion;
+                        detalles.OrdenDetalleEstado = true;
+                        detalles.OrdenDetalleFechaCreacion = DateTime.Now;
+                        total = total + detalles.Total;
+                        if (!_ordenDetalleRepository.CrearOrdenDetalle(detalles))
+                        {
+                            ModelState.AddModelError("", $"Algo Salio Mal guardando el registro de la orden");
+                            return Ok(0);
+                        }
+                    }
+
+                    orden.Total = total;
+                    if (!_ordenRepository.ActualizarOrden(orden))
+                    {
+                        ModelState.AddModelError("", $"Algo Salio Mal guardando el registro de la orden");
+                        return Ok(2);
+                    }
+
+                    transaction.Commit();
+                    return Ok(1);
+
                 }
+                catch(Exception ex)
+                {
+                    Console.WriteLine(ex);
+                    transaction.Rollback();
+                    return Ok(2);
+                }
+
             }
 
-            orden.Total = total;
-            if (!_ordenRepository.ActualizarOrden(orden))
-            {
-                ModelState.AddModelError("", $"Algo Salio Mal guardando el registro de la orden");
-                return Ok(2);
-            }
-
-            return Ok(1);
         }
 
 

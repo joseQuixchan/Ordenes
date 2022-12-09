@@ -1,10 +1,10 @@
 
 
-const UrlApi = "https://www.berakahMultinegocios.somee.com/api/"; 
+//const UrlApi = "https://www.berakahMultinegocios.somee.com/api/"; 
 //const UrlApi = "http://35.185.219.24/api/api/";  
 //const UrlApi = "http://josequixchan-001-site1.ctempurl.com/site1/api/";
 //const UrlApi = "http://josequixchan-001-site1.ctempurl.com/site1/api/";
-//const UrlApi = "http://localhost:5091/api/";
+const UrlApi = "http://localhost:5091/api/";
 
 let token = JSON.parse(localStorage.getItem("token"));
 
